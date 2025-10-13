@@ -2,9 +2,13 @@ package kr.adapterz.ari_community.post;
 
 import jakarta.transaction.Transactional;
 import kr.adapterz.ari_community.post.dto.request.CreateOrUpdatePostRequest;
+import kr.adapterz.ari_community.post.dto.response.GetPostListResponse;
 import kr.adapterz.ari_community.user.User;
 import kr.adapterz.ari_community.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -17,7 +21,18 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    //public List<Post> getPostList() {};
+    public Slice<GetPostListResponse> getPostList(BigInteger cursorId, Integer size) {
+        Slice<Post> postSlice;
+        Pageable pageable = PageRequest.of(0, size);
+
+        if (cursorId == null) { // 최초 조회시 예외 처리
+            postSlice = postRepository.findAllOrderByIdAsc(pageable);
+        } else {
+            postSlice = postRepository.findByIdGreaterThanOrderByIdAsc(cursorId, pageable);
+        }
+
+        return postSlice.map(GetPostListResponse::new);
+    }
 
     public Post getPost(BigInteger post_id) {
         return postRepository.findById(post_id)
