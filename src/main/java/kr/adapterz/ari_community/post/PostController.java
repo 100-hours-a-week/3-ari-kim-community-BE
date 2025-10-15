@@ -19,7 +19,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<Slice<GetPostListResponse>> getPostList(
             @RequestParam(required = false) BigInteger cursorId,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "20") int size) {
         Slice<GetPostListResponse> postList = postService.getPostList(cursorId, size);
         return ResponseEntity.ok(postList);
     }

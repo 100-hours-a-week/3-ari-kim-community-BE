@@ -2,7 +2,6 @@ package kr.adapterz.ari_community.post.dto.response;
 
 import kr.adapterz.ari_community.post.Post;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;

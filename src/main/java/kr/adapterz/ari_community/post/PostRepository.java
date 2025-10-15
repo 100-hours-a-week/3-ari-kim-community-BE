@@ -12,6 +12,6 @@ public interface PostRepository extends JpaRepository<Post, BigInteger> {
 
     Slice<Post> findAllOrderByIdAsc(Pageable pageable);
 
-    Slice<Post> findByIdGreaterThanOrderByIdAsc(BigInteger id, Pageable pageable);
+    Slice<Post> findAllByIdGreaterThanOrderByIdAsc(BigInteger id, Pageable pageable);
 
 }

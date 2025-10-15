@@ -28,10 +28,10 @@ public class PostService {
         if (cursorId == null) { // 최초 조회시 예외 처리
             postSlice = postRepository.findAllOrderByIdAsc(pageable);
         } else {
-            postSlice = postRepository.findByIdGreaterThanOrderByIdAsc(cursorId, pageable);
+            postSlice = postRepository.findAllByIdGreaterThanOrderByIdAsc(cursorId, pageable);
         }
 
-        return postSlice.map(GetPostListResponse::new);
+        return postSlice.map(post -> new GetPostListResponse(post));
     }
 
     public Post getPost(BigInteger post_id) {
