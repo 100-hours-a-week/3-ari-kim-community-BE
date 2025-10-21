@@ -1,0 +1,132 @@
+/* 공통 Header */
+
+/* 뒤로가기 버튼, 프로필 아이콘 숨김 */
+#back-button,
+#profile-container {
+    display: none;
+}
+
+/* 드롭다운 메뉴 */
+.profile-container {
+    position: relative;
+}
+
+.user-profile {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    z-index: 1;
+}
+
+/* JS .show 클래스가 추가됐을 경우 */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.dropdown-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* 로그인, 회원가입 */
+
+.form-container {
+    max-width: 400px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.form-title {
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.helper-text {
+    color: #e03131;
+    font-size: 12px;
+    margin-top: 8px;
+    min-height: 1.2em; /* 메시지가 없을 때도 공간 차지 */
+}
+
+.form-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* 버튼 비활성화 */
+.form-button:disabled {
+    background-color: #ACA0EB;
+    cursor: not-allowed;
+}
+
+/* 버튼 활성화 */
+.form-button:not(:disabled) {
+    background-color: #7F6AEE;
+}
+
+.form-link {
+    display: block;
+    margin-top: 20px;
+    color: #495057;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.form-link:hover {
+    text-decoration: underline;
+}
