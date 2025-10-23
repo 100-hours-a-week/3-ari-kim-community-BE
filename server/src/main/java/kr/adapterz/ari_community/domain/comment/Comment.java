@@ -1,8 +1,8 @@
-package kr.adapterz.ari_community.comment;
+package kr.adapterz.ari_community.domain.comment;
 
 import jakarta.persistence.*;
-import kr.adapterz.ari_community.post.Post;
-import kr.adapterz.ari_community.user.User;
+import kr.adapterz.ari_community.domain.post.Post;
+import kr.adapterz.ari_community.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;

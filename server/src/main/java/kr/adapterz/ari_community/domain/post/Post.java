@@ -1,8 +1,8 @@
-package kr.adapterz.ari_community.post;
+package kr.adapterz.ari_community.domain.post;
 
 import jakarta.persistence.*;
-import kr.adapterz.ari_community.comment.Comment;
-import kr.adapterz.ari_community.user.User;
+import kr.adapterz.ari_community.domain.comment.Comment;
+import kr.adapterz.ari_community.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,7 +1,7 @@
-package kr.adapterz.ari_community.user;
+package kr.adapterz.ari_community.domain.user;
 
-import kr.adapterz.ari_community.user.dto.request.UpdatePasswordRequest;
-import kr.adapterz.ari_community.user.dto.request.UpdateUserRequest;
+import kr.adapterz.ari_community.domain.user.dto.request.UpdatePasswordRequest;
+import kr.adapterz.ari_community.domain.user.dto.request.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

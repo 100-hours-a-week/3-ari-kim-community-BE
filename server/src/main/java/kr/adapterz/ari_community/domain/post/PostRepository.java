@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.post;
+package kr.adapterz.ari_community.domain.post;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,10 +1,10 @@
-package kr.adapterz.ari_community.post;
+package kr.adapterz.ari_community.domain.post;
 
 import jakarta.transaction.Transactional;
-import kr.adapterz.ari_community.post.dto.request.CreateOrUpdatePostRequest;
-import kr.adapterz.ari_community.post.dto.response.GetPostListResponse;
-import kr.adapterz.ari_community.user.User;
-import kr.adapterz.ari_community.user.UserRepository;
+import kr.adapterz.ari_community.domain.post.dto.request.CreateOrUpdatePostRequest;
+import kr.adapterz.ari_community.domain.post.dto.response.GetPostListResponse;
+import kr.adapterz.ari_community.domain.user.User;
+import kr.adapterz.ari_community.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

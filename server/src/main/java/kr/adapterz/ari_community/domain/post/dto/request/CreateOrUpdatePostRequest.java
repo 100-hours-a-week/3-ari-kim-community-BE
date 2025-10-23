@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.post.dto.request;
+package kr.adapterz.ari_community.domain.post.dto.request;
 
 import lombok.Getter;
 

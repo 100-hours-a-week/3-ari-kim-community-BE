@@ -1,6 +1,6 @@
-package kr.adapterz.ari_community.post.dto.response;
+package kr.adapterz.ari_community.domain.post.dto.response;
 
-import kr.adapterz.ari_community.post.Post;
+import kr.adapterz.ari_community.domain.post.Post;
 import lombok.Getter;
 
 import java.math.BigInteger;
