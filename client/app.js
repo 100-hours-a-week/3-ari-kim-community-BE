@@ -25,17 +25,36 @@ function loadHeader() {
 
 function setupHeaderUI() {
     const currentPage = window.location.pathname;
-
     const backButton = document.getElementById('back-button');
     const profileContainer = document.getElementById('profile-container');
 
-    // 로그인/회원가입 페이지인 경우, 프로필 아이콘/뒤로가기 버튼 비활성화
-    if (currentPage.includes('LoginPage.html') || currentPage.includes('SignupPage.html')) {
+    // 회원가입 페이지인 경우, 뒤로가기(로그인 페이지) 버튼 활성화
+    if (currentPage.includes('SignupPage.html')) {
+        backButton.style.display = 'block';
+        backButton.addEventListener('click', () => {
+            window.location.href = 'LoginPage.html';
+        });
     }
-    // 게시글 상세, 작성, 수정 페이지인 경우, 프로필 아이콘/뒤로가기 버튼 활성화
+    // 게시글 상세, 작성 페이지인 경우, 프로필 아이콘/뒤로가기(게시물 목록) 버튼 활성화
     else if (currentPage.includes('PostDetailPage.html') || currentPage.includes('PostCreatePage.html')) {
         backButton.style.display = 'block';
         profileContainer.style.display = 'block';
+        backButton.addEventListener('click', () => {
+            window.location.href = 'PostListPage.html';
+        });
+    }
+    // 게시글 수정 페이지인 경우, 프로필 아이콘/뒤로가기(게시물 상세) 버튼 활성화
+    else if (currentPage.includes('PostUpdatePage.html')) {
+        backButton.style.display = 'block';
+        profileContainer.style.display = 'block';
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+        backButton.addEventListener('click', () => {if (postId) {
+            window.location.href = `PostDetailPage.html?id=${postId}`;
+            } else {
+            window.location.href = 'PostListPage.html';
+            }
+        });
     }
     // 그 외 모든 페이지, 프로필 아이콘 활성화
     else {
