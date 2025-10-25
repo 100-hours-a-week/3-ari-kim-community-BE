@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ari_community.iml" filepath="$PROJECT_DIR$/.idea/ari_community.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kr.adapterz.ari_community.main.iml" filepath="$PROJECT_DIR$/.idea/modules/kr.adapterz.ari_community.main.iml" />
     </modules>
   </component>
 </project>
