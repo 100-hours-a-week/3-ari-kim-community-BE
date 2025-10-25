@@ -2,6 +2,7 @@ package kr.adapterz.ari_community.domain.post;
 
 import jakarta.transaction.Transactional;
 import kr.adapterz.ari_community.domain.post.dto.request.CreateOrUpdatePostRequest;
+import kr.adapterz.ari_community.domain.post.dto.response.GetPostDetailResponse;
 import kr.adapterz.ari_community.domain.post.dto.response.GetPostListResponse;
 import kr.adapterz.ari_community.domain.user.User;
 import kr.adapterz.ari_community.domain.user.UserRepository;
@@ -43,9 +44,10 @@ public class PostService {
     /* 게시물 상세 조회
     post_id에 해당하는 게시물을 가져옴
      */
-    public Post getPost(BigInteger post_id) {
-        return postRepository.findById(post_id)
+    public GetPostDetailResponse getPost(BigInteger post_id) {
+        Post post = postRepository.findById(post_id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        return new GetPostDetailResponse(post);
     }
 
     /* 게시물 등록

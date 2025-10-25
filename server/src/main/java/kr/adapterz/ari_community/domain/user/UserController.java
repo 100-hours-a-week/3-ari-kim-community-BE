@@ -19,7 +19,7 @@ public class UserController {
     PathVariable로 user_id를, RequestBody로 DTO 요소들을 가져옴
     RequestDTO 요소: 닉네임, 프로필URL
      */
-    @PatchMapping("/{user_id}/userInfo")
+    @PatchMapping("/{user_id}")
     public ResponseEntity<ApiResponse<UpdateUserResponse>> updateUser(@PathVariable Integer user_id, @RequestBody UpdateUserRequest request) {
         UpdateUserResponse updatedUser = userService.updateUser(user_id, request);
         return ResponseEntity.ok(ApiResponse.success(updatedUser));
@@ -31,7 +31,7 @@ public class UserController {
     RequestDTO 요소: 비밀번호, 비밀번호 확인
      */
     @PatchMapping("/{user_id}/password")
-    public ResponseEntity<?> updatePassword(@PathVariable Integer user_id, @RequestBody UpdatePasswordRequest request) {
+    public ResponseEntity<ApiResponse<UpdateUserResponse>> updatePassword(@PathVariable Integer user_id, @RequestBody UpdatePasswordRequest request) {
         UpdateUserResponse updatedUser = userService.updatePassword(user_id, request);
         // 4. 성공 시 200 OK 응답
         return ResponseEntity.ok(ApiResponse.success(updatedUser, "비밀번호가 변경되었습니다."));
@@ -39,9 +39,9 @@ public class UserController {
 
     // 회원 탈퇴
     @DeleteMapping("/{user_id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer user_id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer user_id) {
         userService.deleteUser(user_id);
-        return ResponseEntity.ok("204 삭제 완료");
+        return ResponseEntity.noContent().build();
     }
 
 }
