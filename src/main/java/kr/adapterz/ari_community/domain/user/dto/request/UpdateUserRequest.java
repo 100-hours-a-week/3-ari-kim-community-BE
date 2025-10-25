@@ -7,6 +7,6 @@ public class UpdateUserRequest {
 
     private String nickname;
 
-    private String profile_url;
+    private String profileUrl;
 
 }

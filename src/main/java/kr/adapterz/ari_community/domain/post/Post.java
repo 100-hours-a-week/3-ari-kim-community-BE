@@ -20,10 +20,10 @@ public class Post {
 
     @Id
     @GeneratedValue
-    private BigInteger post_id;
+    private BigInteger postId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(nullable = false)
@@ -35,41 +35,41 @@ public class Post {
     // 수정 여부: 기본값 0, 게시물 수정시 0->1
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Boolean is_modified;
+    private Boolean isModified;
 
     // 작성 시각: yyyy-mm-dd hh:mm:ss
     @Column(nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String image_url;
+    private String imageUrl;
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Integer like_count;
+    private Integer likeCount;
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private BigInteger view_count;
+    private BigInteger viewCount;
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Integer comment_count;
+    private Integer commentCount;
 
     // 단방향 연관관계, comment 테이블에 FK(post_id) 생성
     @OneToMany
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private List<Comment> comments = new ArrayList<>();
 
-    public Post(User user, String nickname, String title, String content, String image_url) {
+    public Post(User user, String nickname, String title, String content, String imageUrl) {
         this.user = user;
         this.nickname = nickname;
         this.title = title;
         this.content = content;
-        this.image_url = image_url;
-        this.created_at = LocalDateTime.now();
+        this.imageUrl = imageUrl;
+        this.createdAt = LocalDateTime.now();
     }
 
 }

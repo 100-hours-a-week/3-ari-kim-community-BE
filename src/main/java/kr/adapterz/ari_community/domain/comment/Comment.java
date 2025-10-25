@@ -16,22 +16,22 @@ public class Comment {
 
     @Id
     @GeneratedValue
-    private Integer comment_id;
+    private Integer commentId;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(nullable = false)
     @ColumnDefault("0")
-    private Boolean is_modified;
+    private Boolean isModified;
 
     @Column(nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;

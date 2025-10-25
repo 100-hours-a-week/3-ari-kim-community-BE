@@ -16,11 +16,11 @@ public class Post_like {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
 }

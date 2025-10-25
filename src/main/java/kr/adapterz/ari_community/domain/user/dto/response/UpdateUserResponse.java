@@ -9,12 +9,12 @@ public class UpdateUserResponse {
     private final Integer user_id;
     private final String nickname;
     private final String password;
-    private final String profile_url;
+    private final String profileUrl;
 
     public UpdateUserResponse(User user) {
-        this.user_id = user.getUser_id();
+        this.user_id = user.getUserId();
         this.nickname = user.getNickname();
         this.password = user.getPassword();
-        this.profile_url = user.getProfile_url();
+        this.profileUrl = user.getProfileUrl();
     }
 }

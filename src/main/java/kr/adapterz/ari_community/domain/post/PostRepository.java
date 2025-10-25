@@ -10,8 +10,8 @@ import java.math.BigInteger;
 @Repository
 public interface PostRepository extends JpaRepository<Post, BigInteger> {
 
-    Slice<Post> findAllOrderByIdAsc(Pageable pageable);
+    Slice<Post> findAllByOrderByPostIdDesc(Pageable pageable);
 
-    Slice<Post> findAllByIdGreaterThanOrderByIdAsc(BigInteger id, Pageable pageable);
+    Slice<Post> findByPostIdLessThanOrderByPostIdDesc(BigInteger postId, Pageable pageable);
 
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -30,12 +31,12 @@ public class PostService {
      */
     public Slice<GetPostListResponse> getPostList(BigInteger cursorId, Integer size) {
         Slice<Post> postSlice;
-        Pageable pageable = PageRequest.of(0, size);
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "postId"));
 
         if (cursorId == null) { // 최초 조회시
-            postSlice = postRepository.findAllOrderByIdAsc(pageable);
+            postSlice = postRepository.findAllByOrderByPostIdDesc(pageable);
         } else {
-            postSlice = postRepository.findAllByIdGreaterThanOrderByIdAsc(cursorId, pageable);
+            postSlice = postRepository.findByPostIdLessThanOrderByPostIdDesc(cursorId, pageable);
         }
 
         return postSlice.map(post -> new GetPostListResponse(post));
@@ -44,8 +45,8 @@ public class PostService {
     /* 게시물 상세 조회
     post_id에 해당하는 게시물을 가져옴
      */
-    public GetPostDetailResponse getPost(BigInteger post_id) {
-        Post post = postRepository.findById(post_id)
+    public GetPostDetailResponse getPost(BigInteger postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         return new GetPostDetailResponse(post);
     }
@@ -54,14 +55,14 @@ public class PostService {
     user_id로 User정보(user, nickname)을, RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져와 DB에 저장함
      */
     @Transactional
-    public Post createPost(Integer user_id, CreateOrUpdatePostRequest request) {
-        User user = userRepository.findById(user_id)
+    public Post createPost(Integer userId, CreateOrUpdatePostRequest request) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Post post = new Post(user,
                 user.getNickname(),
                 request.getTitle(),
                 request.getContent(),
-                request.getImage_url());
+                request.getImageUrl());
         return postRepository.save(post);
     }
 
@@ -69,19 +70,19 @@ public class PostService {
     RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져오고, 이를 post_id에 해당하는 post에 적용함
      */
     @Transactional
-    public Post updatePost(BigInteger post_id, CreateOrUpdatePostRequest request) {
-        Post post = postRepository.findById(post_id)
+    public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
-        post.setImage_url(request.getImage_url());
+        post.setImageUrl(request.getImageUrl());
         return post;
     }
 
     // 게시물 삭제
     @Transactional
-    public void deletePost(BigInteger post_id) {
-        Post post = postRepository.findById(post_id)
+    public void deletePost(BigInteger postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         postRepository.delete(post);
     }

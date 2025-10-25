@@ -20,8 +20,8 @@ public class UserController {
     RequestDTO 요소: 닉네임, 프로필URL
      */
     @PatchMapping("/{user_id}")
-    public ResponseEntity<ApiResponse<UpdateUserResponse>> updateUser(@PathVariable Integer user_id, @RequestBody UpdateUserRequest request) {
-        UpdateUserResponse updatedUser = userService.updateUser(user_id, request);
+    public ResponseEntity<ApiResponse<UpdateUserResponse>> updateUser(@PathVariable Integer userId, @RequestBody UpdateUserRequest request) {
+        UpdateUserResponse updatedUser = userService.updateUser(userId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedUser));
     }
 
@@ -31,16 +31,16 @@ public class UserController {
     RequestDTO 요소: 비밀번호, 비밀번호 확인
      */
     @PatchMapping("/{user_id}/password")
-    public ResponseEntity<ApiResponse<UpdateUserResponse>> updatePassword(@PathVariable Integer user_id, @RequestBody UpdatePasswordRequest request) {
-        UpdateUserResponse updatedUser = userService.updatePassword(user_id, request);
+    public ResponseEntity<ApiResponse<UpdateUserResponse>> updatePassword(@PathVariable Integer userId, @RequestBody UpdatePasswordRequest request) {
+        UpdateUserResponse updatedUser = userService.updatePassword(userId, request);
         // 4. 성공 시 200 OK 응답
         return ResponseEntity.ok(ApiResponse.success(updatedUser, "비밀번호가 변경되었습니다."));
     }
 
     // 회원 탈퇴
     @DeleteMapping("/{user_id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer user_id) {
-        userService.deleteUser(user_id);
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 

@@ -32,8 +32,8 @@ public class PostController {
 
     // 게시물 상세 조회
     @GetMapping("/{post_id}")
-    public ResponseEntity<ApiResponse<GetPostDetailResponse>> getPost(@PathVariable BigInteger post_id) {
-        GetPostDetailResponse post = postService.getPost(post_id);
+    public ResponseEntity<ApiResponse<GetPostDetailResponse>> getPost(@PathVariable BigInteger postId) {
+        GetPostDetailResponse post = postService.getPost(postId);
         return ResponseEntity.ok(ApiResponse.success(post));
     }
 
@@ -42,8 +42,8 @@ public class PostController {
     Request DTO 요소: 제목, 내용, 이미지 URL(선택)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Post>> createPost(@PathVariable Integer user_id, @RequestBody CreateOrUpdatePostRequest request) {
-        Post createdPost = postService.createPost(user_id, request);
+    public ResponseEntity<ApiResponse<Post>> createPost(@PathVariable Integer userId, @RequestBody CreateOrUpdatePostRequest request) {
+        Post createdPost = postService.createPost(userId, request);
         return ResponseEntity.ok(ApiResponse.success(createdPost));
     }
 
@@ -52,15 +52,15 @@ public class PostController {
     Request DTO 요소: 제목, 내용, 이미지 URL(선택)
      */
     @PatchMapping("/{post_id}")
-    public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable BigInteger post_id, @RequestBody CreateOrUpdatePostRequest request) {
-        Post updatedPost = postService.updatePost(post_id, request);
+    public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable BigInteger postId, @RequestBody CreateOrUpdatePostRequest request) {
+        Post updatedPost = postService.updatePost(postId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedPost));
     }
 
     // 게시물 삭제
     @DeleteMapping("/{post_id}")
-    public ResponseEntity<Void> deletePost(@PathVariable BigInteger post_id) {
-        postService.deletePost(post_id);
+    public ResponseEntity<Void> deletePost(@PathVariable BigInteger postId) {
+        postService.deletePost(postId);
         return ResponseEntity.noContent().build();
     }
 

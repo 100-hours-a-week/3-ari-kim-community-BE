@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private Integer user_id;
+    private Integer userId;
 
     @Column(nullable = false, unique=true)
     private String email;
@@ -31,21 +31,21 @@ public class User {
     private String nickname;
 
     @Column(nullable = false)
-    private String profile_url;
+    private String profileUrl;
 
     // 단방향 연관관계, post 테이블에 FK(user_id) 생성
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private List<Post> posts = new ArrayList<>();
 
     // 단방향 연관관계, comment 테이블에 FK(user_id) 생성
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private List<Comment> comments = new ArrayList<>();
 
     // 단방향 연관관계, post_like 테이블에 FK(user_id) 생성
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private List<Post_like> post_likes = new ArrayList<>();
 
 }

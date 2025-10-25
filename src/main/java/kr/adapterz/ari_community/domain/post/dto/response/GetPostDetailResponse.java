@@ -7,37 +7,37 @@ import java.time.LocalDateTime;
 
 public class GetPostDetailResponse {
 
-    private BigInteger post_id;
+    private BigInteger postId;
 
     private String nickname;
 
     private String title;
 
-    private Boolean is_modified;
+    private Boolean isModified;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     private String content;
 
-    private String image_url;
+    private String imageUrl;
 
-    private Integer like_count;
+    private Integer likeCount;
 
-    private BigInteger view_count;
+    private BigInteger viewCount;
 
-    private Integer comment_count;
+    private Integer commentCount;
 
     public GetPostDetailResponse(Post post) {
-        this.post_id = post.getPost_id();
+        this.postId = post.getPostId();
         this.nickname = post.getNickname();
         this.title = post.getTitle();
-        this.is_modified = post.getIs_modified();
-        this.created_at = post.getCreated_at();
+        this.isModified = post.getIsModified();
+        this.createdAt = post.getCreatedAt();
         this.content = post.getContent();
-        this.image_url = post.getImage_url();
-        this.like_count = post.getLike_count();
-        this.view_count = post.getView_count();
-        this.comment_count = post.getComment_count();
+        this.imageUrl = post.getImageUrl();
+        this.likeCount = post.getLikeCount();
+        this.viewCount = post.getViewCount();
+        this.commentCount = post.getCommentCount();
     }
 
 }
