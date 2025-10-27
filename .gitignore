@@ -32,7 +32,6 @@ build/
 .gradle/
 
 # IntelliJ IDEA
-/resources/
 .idea
 
 # application.yml
