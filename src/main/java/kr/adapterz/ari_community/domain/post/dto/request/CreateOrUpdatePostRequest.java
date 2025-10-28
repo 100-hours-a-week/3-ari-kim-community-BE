@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public class CreateOrUpdatePostRequest {
 
+    private Integer user_id;
+
     private String title;
 
     private String content;

@@ -52,11 +52,11 @@ public class PostService {
     }
 
     /* 게시물 등록
-    user_id로 User정보(user, nickname)을, RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져와 DB에 저장함
+    RequestDTO로 user_id, 제목, 내용, 이미지URL를 가져오고, user_id로 User정보(user, nickname)를 가져와 DB에 저장함
      */
     @Transactional
-    public Post createPost(Integer userId, CreateOrUpdatePostRequest request) {
-        User user = userRepository.findById(userId)
+    public Post createPost(CreateOrUpdatePostRequest request) {
+        User user = userRepository.findById(request.getUser_id())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Post post = new Post(user,
                 user.getNickname(),

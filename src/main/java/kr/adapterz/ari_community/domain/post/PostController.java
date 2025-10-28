@@ -31,19 +31,19 @@ public class PostController {
     }
 
     // 게시물 상세 조회
-    @GetMapping("/{post_id}")
+    @GetMapping("/{postId}")
     public ResponseEntity<ApiResponse<GetPostDetailResponse>> getPost(@PathVariable BigInteger postId) {
         GetPostDetailResponse post = postService.getPost(postId);
         return ResponseEntity.ok(ApiResponse.success(post));
     }
 
     /* 게시물 등록
-    PathVariable로 user_id를, RequestBody로 DTO 요소들을 가져옴
-    Request DTO 요소: 제목, 내용, 이미지 URL(선택)
+    RequestBody로 DTO 요소들을 가져옴
+    Request DTO 요소: user_id, 제목, 내용, 이미지 URL(선택)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Post>> createPost(@PathVariable Integer userId, @RequestBody CreateOrUpdatePostRequest request) {
-        Post createdPost = postService.createPost(userId, request);
+    public ResponseEntity<ApiResponse<Post>> createPost(@RequestBody CreateOrUpdatePostRequest request) {
+        Post createdPost = postService.createPost(request);
         return ResponseEntity.ok(ApiResponse.success(createdPost));
     }
 
@@ -51,7 +51,7 @@ public class PostController {
     PathVariable로 post_id를 가져옴
     Request DTO 요소: 제목, 내용, 이미지 URL(선택)
      */
-    @PatchMapping("/{post_id}")
+    @PatchMapping("/{postId}")
     public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable BigInteger postId, @RequestBody CreateOrUpdatePostRequest request) {
         Post updatedPost = postService.updatePost(postId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedPost));
