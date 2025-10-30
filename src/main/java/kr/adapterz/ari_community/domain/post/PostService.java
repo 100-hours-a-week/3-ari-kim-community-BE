@@ -14,8 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -51,18 +57,41 @@ public class PostService {
         return new GetPostDetailResponse(post);
     }
 
+    // 이미지 파일을 서버에 저장
+    private String saveImageToServer(MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            return null;
+        }
+        // posts 폴더에 "UUID_파일명.png" 으로 저장
+        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+        Path imagePath = Paths.get("/Documents/images/posts"); // 저장 경로
+        try {
+            if (!Files.exists(imagePath)) {
+                Files.createDirectories(imagePath); // 경로 폴더가 없으면 폴더를 생성
+            }
+            // 지정 경로에 파일 복사(저장)
+            Files.copy(image.getInputStream(), imagePath.resolve(fileName));
+            return "/images/posts/" + fileName;
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
+        }
+    }
+
     /* 게시물 등록
-    RequestDTO로 user_id, 제목, 내용, 이미지URL를 가져오고, user_id로 User정보(user, nickname)를 가져와 DB에 저장함
+    RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
+    user_id로 User정보(user, nickname)를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
      */
     @Transactional
-    public Post createPost(CreateOrUpdatePostRequest request) {
+    public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+        String imageUrl = saveImageToServer(imageFile);
         User user = userRepository.findById(request.getUser_id())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
         Post post = new Post(user,
                 user.getNickname(),
                 request.getTitle(),
                 request.getContent(),
-                request.getImageUrl());
+                imageUrl);
         return postRepository.save(post);
     }
 
@@ -70,12 +99,13 @@ public class PostService {
     RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져오고, 이를 post_id에 해당하는 post에 적용함
      */
     @Transactional
-    public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request) {
+    public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+        String imageUrl = saveImageToServer(imageFile);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
-        post.setImageUrl(request.getImageUrl());
+        post.setImageUrl(imageFile != null ? imageUrl : post.getImageUrl());
         return post;
     }
 

@@ -11,6 +11,4 @@ public class CreateOrUpdatePostRequest {
 
     private String content;
 
-    private String imageUrl;
-
 }

@@ -9,6 +9,8 @@ public class GetPostDetailResponse {
 
     private BigInteger postId;
 
+    private Integer userId;
+
     private String nickname;
 
     private String title;
@@ -29,6 +31,7 @@ public class GetPostDetailResponse {
 
     public GetPostDetailResponse(Post post) {
         this.postId = post.getPostId();
+        this.userId = post.getUser().getUserId();
         this.nickname = post.getNickname();
         this.title = post.getTitle();
         this.isModified = post.getIsModified();

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 
@@ -42,8 +43,11 @@ public class PostController {
     Request DTO 요소: user_id, 제목, 내용, 이미지 URL(선택)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Post>> createPost(@RequestBody CreateOrUpdatePostRequest request) {
-        Post createdPost = postService.createPost(request);
+    public ResponseEntity<ApiResponse<Post>> createPost(
+            @ModelAttribute CreateOrUpdatePostRequest request,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+            ) {
+        Post createdPost = postService.createPost(request, imageFile);
         return ResponseEntity.ok(ApiResponse.success(createdPost));
     }
 
@@ -52,8 +56,12 @@ public class PostController {
     Request DTO 요소: 제목, 내용, 이미지 URL(선택)
      */
     @PatchMapping("/{postId}")
-    public ResponseEntity<ApiResponse<Post>> updatePost(@PathVariable BigInteger postId, @RequestBody CreateOrUpdatePostRequest request) {
-        Post updatedPost = postService.updatePost(postId, request);
+    public ResponseEntity<ApiResponse<Post>> updatePost(
+            @PathVariable BigInteger postId,
+            @ModelAttribute CreateOrUpdatePostRequest request,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+            ) {
+        Post updatedPost = postService.updatePost(postId, request, imageFile);
         return ResponseEntity.ok(ApiResponse.success(updatedPost));
     }
 
