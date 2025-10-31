@@ -34,7 +34,7 @@ public class PostService {
     최초 조회시 post_id 오름차순에서 1-20번째 게시물을 가져옴
     다음 페이지 조회시 post_id 오름차순에서 cursorId(마지막으로 조회한 게시물) 이후 1-20번째 게시물을 가져옴
     가져온 게시물들을 DTO로 변환하여 반환
-     */
+    */
     public Slice<GetPostListResponse> getPostList(BigInteger cursorId, Integer size) {
         Slice<Post> postSlice;
         Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "postId"));
@@ -50,7 +50,7 @@ public class PostService {
 
     /* 게시물 상세 조회
     post_id에 해당하는 게시물을 가져옴
-     */
+    */
     public GetPostDetailResponse getPost(BigInteger postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
@@ -80,7 +80,7 @@ public class PostService {
     /* 게시물 등록
     RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
     user_id로 User정보(user, nickname)를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
-     */
+    */
     @Transactional
     public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
@@ -98,7 +98,7 @@ public class PostService {
     /* 게시물 수정
     RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져오고, 이를 post_id에 해당하는 post에 적용함
     isModified=0, 이미지 URL=null이면 기존 이미지 적용
-     */
+    */
     @Transactional
     public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
