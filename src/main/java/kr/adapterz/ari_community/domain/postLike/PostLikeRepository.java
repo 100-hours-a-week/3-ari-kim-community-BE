@@ -7,4 +7,6 @@ import java.math.BigInteger;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, BigInteger> {
 
+    PostLike findByUserId(Integer userId);
+
 }
