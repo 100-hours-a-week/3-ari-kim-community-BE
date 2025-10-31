@@ -84,7 +84,7 @@ public class PostService {
     @Transactional
     public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
-        User user = userRepository.findById(request.getUser_id())
+        User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = new Post(user,
@@ -97,6 +97,7 @@ public class PostService {
 
     /* 게시물 수정
     RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져오고, 이를 post_id에 해당하는 post에 적용함
+    isModified=0, 이미지 URL=null이면 기존 이미지 적용
      */
     @Transactional
     public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
@@ -104,6 +105,7 @@ public class PostService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.setTitle(request.getTitle());
+        post.setIsModified(true);
         post.setContent(request.getContent());
         post.setImageUrl(imageFile != null ? imageUrl : post.getImageUrl());
         return post;

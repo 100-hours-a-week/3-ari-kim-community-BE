@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.domain.post_like;
+package kr.adapterz.ari_community.domain.postLike;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Post_like {
+public class PostLike {
 
     @Id
     @ManyToOne

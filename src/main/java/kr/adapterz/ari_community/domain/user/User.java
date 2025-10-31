@@ -3,7 +3,7 @@ package kr.adapterz.ari_community.domain.user;
 import jakarta.persistence.*;
 import kr.adapterz.ari_community.domain.comment.Comment;
 import kr.adapterz.ari_community.domain.post.Post;
-import kr.adapterz.ari_community.domain.post_like.Post_like;
+import kr.adapterz.ari_community.domain.postLike.PostLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,6 +46,6 @@ public class User {
     // 단방향 연관관계, post_like 테이블에 FK(user_id) 생성
     @OneToMany
     @JoinColumn(name = "userId")
-    private List<Post_like> post_likes = new ArrayList<>();
+    private List<PostLike> postLike = new ArrayList<>();
 
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class CreateOrUpdatePostRequest {
 
-    private Integer user_id;
+    private Integer userId;
 
     private String title;
 

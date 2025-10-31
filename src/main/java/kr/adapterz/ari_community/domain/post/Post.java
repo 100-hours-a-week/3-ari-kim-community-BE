@@ -34,7 +34,7 @@ public class Post {
 
     // 수정 여부: 기본값 0, 게시물 수정시 0->1
     @Column(nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Boolean isModified;
 
     // 작성 시각: yyyy-mm-dd hh:mm:ss
@@ -47,15 +47,15 @@ public class Post {
     private String imageUrl;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Integer likeCount;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private BigInteger viewCount;
 
     @Column(nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Integer commentCount;
 
     // 단방향 연관관계, comment 테이블에 FK(post_id) 생성
