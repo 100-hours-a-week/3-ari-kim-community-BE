@@ -22,8 +22,8 @@ public class UserService {
     public UpdateUserResponse updateUser(Integer userId, UpdateUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NICKNAME_DUPLICATION));
-        user.setNickname(request.getNickname());
-        user.setProfileUrl(request.getProfileUrl());
+        user.setNickname(request.nickname());
+        user.setProfileUrl(request.profileUrl());
         return new UpdateUserResponse(user);
     }
 
@@ -32,7 +32,7 @@ public class UserService {
     public UpdateUserResponse updatePassword(Integer userId, UpdatePasswordRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PASSWORD_MISMATCH));
-        user.setPassword(request.getPassword());
+        user.setPassword(request.password());
         return new UpdateUserResponse(user);
     }
 

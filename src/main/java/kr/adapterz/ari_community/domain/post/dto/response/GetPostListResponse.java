@@ -1,39 +1,39 @@
 package kr.adapterz.ari_community.domain.post.dto.response;
 
-import kr.adapterz.ari_community.domain.post.Post;
-import lombok.Getter;
-
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
-@Getter
-public class GetPostListResponse {
+import kr.adapterz.ari_community.domain.post.Post;
 
-    private BigInteger postId;
+public record GetPostListResponse (
 
-    private String nickname;
+    BigInteger postId,
 
-    private String title;
+    String nickname,
 
-    private Boolean isModified;
+    String title,
 
-    private LocalDateTime createdAt;
+    Boolean isModified,
 
-    private Integer likeCount;
+    LocalDateTime createdAt,
 
-    private BigInteger viewCount;
+    Integer likeCount,
 
-    private Integer commentCount;
+    BigInteger viewCount,
+
+    Integer commentCount
+
+) {
 
     public GetPostListResponse(Post post) {
-        this.postId = post.getPostId();
-        this.nickname = post.getNickname();
-        this.title = post.getTitle();
-        this.isModified = post.getIsModified();
-        this.createdAt = post.getCreatedAt();
-        this.likeCount = post.getLikeCount();
-        this.viewCount = post.getViewCount();
-        this.commentCount = post.getCommentCount();
+        this(post.getPostId(), 
+        post.getNickname(), 
+        post.getTitle(), 
+        post.getIsModified(), 
+        post.getCreatedAt(), 
+        post.getLikeCount(), 
+        post.getViewCount(), 
+        post.getCommentCount());
     }
 
 }

@@ -63,13 +63,4 @@ public class Post {
     @JoinColumn(name = "postId")
     private List<Comment> comments = new ArrayList<>();
 
-    public Post(User user, String nickname, String title, String content, String imageUrl) {
-        this.user = user;
-        this.nickname = nickname;
-        this.title = title;
-        this.content = content;
-        this.imageUrl = imageUrl;
-        this.createdAt = LocalDateTime.now();
-    }
-
 }

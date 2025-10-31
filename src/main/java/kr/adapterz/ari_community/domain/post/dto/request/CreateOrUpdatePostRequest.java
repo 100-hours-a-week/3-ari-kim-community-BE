@@ -1,14 +1,11 @@
 package kr.adapterz.ari_community.domain.post.dto.request;
 
-import lombok.Getter;
+public record CreateOrUpdatePostRequest (
 
-@Getter
-public class CreateOrUpdatePostRequest {
+    Integer userId,
 
-    private Integer userId;
+    String title,
 
-    private String title;
+    String content
 
-    private String content;
-
-}
+) {}

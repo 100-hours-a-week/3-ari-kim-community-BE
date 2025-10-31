@@ -84,13 +84,13 @@ public class PostService {
     @Transactional
     public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = new Post(user,
                 user.getNickname(),
-                request.getTitle(),
-                request.getContent(),
+                request.title(),
+                request.content(),
                 imageUrl);
         return postRepository.save(post);
     }
@@ -104,9 +104,9 @@ public class PostService {
         String imageUrl = saveImageToServer(imageFile);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        post.setTitle(request.getTitle());
+        post.setTitle(request.title());
         post.setIsModified(true);
-        post.setContent(request.getContent());
+        post.setContent(request.content());
         post.setImageUrl(imageFile != null ? imageUrl : post.getImageUrl());
         return post;
     }

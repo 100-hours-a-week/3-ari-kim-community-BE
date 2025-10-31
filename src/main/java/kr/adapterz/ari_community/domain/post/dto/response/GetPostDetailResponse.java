@@ -1,46 +1,48 @@
 package kr.adapterz.ari_community.domain.post.dto.response;
 
-import kr.adapterz.ari_community.domain.post.Post;
-
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
-public class GetPostDetailResponse {
+import kr.adapterz.ari_community.domain.post.Post;
 
-    private BigInteger postId;
+public record GetPostDetailResponse (
 
-    private Integer userId;
+    BigInteger postId,
 
-    private String nickname;
+    Integer userId,
 
-    private String title;
+    String nickname,
 
-    private Boolean isModified;
+    String title,
 
-    private LocalDateTime createdAt;
+    Boolean isModified,
 
-    private String content;
+    LocalDateTime createdAt,
 
-    private String imageUrl;
+    String content,
 
-    private Integer likeCount;
+    String imageUrl,
 
-    private BigInteger viewCount;
+    Integer likeCount,
 
-    private Integer commentCount;
+    BigInteger viewCount,
+
+    Integer commentCount
+
+) {
 
     public GetPostDetailResponse(Post post) {
-        this.postId = post.getPostId();
-        this.userId = post.getUser().getUserId();
-        this.nickname = post.getNickname();
-        this.title = post.getTitle();
-        this.isModified = post.getIsModified();
-        this.createdAt = post.getCreatedAt();
-        this.content = post.getContent();
-        this.imageUrl = post.getImageUrl();
-        this.likeCount = post.getLikeCount();
-        this.viewCount = post.getViewCount();
-        this.commentCount = post.getCommentCount();
+        this(post.getPostId(), 
+        post.getUser().getUserId(), 
+        post.getNickname(), 
+        post.getTitle(), 
+        post.getIsModified(), 
+        post.getCreatedAt(), 
+        post.getContent(), 
+        post.getImageUrl(), 
+        post.getLikeCount(), 
+        post.getViewCount(), 
+        post.getCommentCount());
     }
 
 }

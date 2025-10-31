@@ -1,12 +1,9 @@
 package kr.adapterz.ari_community.domain.user.dto.request;
 
-import lombok.Getter;
+public record UpdatePasswordRequest (
 
-@Getter
-public class UpdatePasswordRequest {
+    String password,
 
-    private String password;
+    String passwordCheck
 
-    private String passwordCheck;
-
-}
+) {}

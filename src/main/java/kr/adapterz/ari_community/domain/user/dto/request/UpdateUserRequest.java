@@ -1,12 +1,9 @@
 package kr.adapterz.ari_community.domain.user.dto.request;
 
-import lombok.Getter;
+public record UpdateUserRequest (
 
-@Getter
-public class UpdateUserRequest {
+    String nickname,
 
-    private String nickname;
+    String profileUrl
 
-    private String profileUrl;
-
-}
+) {}
