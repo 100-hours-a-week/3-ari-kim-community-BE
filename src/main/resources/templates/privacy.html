@@ -2,12 +2,39 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>개인정보처리방침</title>
+    <link th:href="@{/layout/header.css}" rel="stylesheet">
+    <link th:href="@{/index.css}" rel="stylesheet">
 </head>
 <body>
-<div class="policy-container">
-    <h1>개인정보처리방침</h1>
-    <hr>
+<header>
+    <div class="header-container">
+        <div class="header-left">
+            <button id="back-button" class="back-button">&lt;</button>
+        </div>
+        <div class="header-center">
+            <h2 class="header-title">Ari 커뮤니티</h2>
+        </div>
+        <div class="header-right">
+            <div id="profile-container" class="profile-container">
+                <div id="profile-icon" class="user-profile"></div>
+                <div id="profile-menu" class="dropdown-menu">
+                    <ul>
+                        <li><a href="#">회원정보 수정</a></li>
+                        <li><a href="#">비밀번호 수정</a></li>
+                        <li><a href="#" id="logout-button">로그아웃</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="policy-container">
+        <h1>개인정보처리방침</h1>
+        <hr>
 
     <h2>제 1 조 (개인정보의 수집 항목 및 방법)</h2>
     <p>Ari 커뮤니티(이하 “회사”)는 서비스 제공을 위해 다음의 개인정보를 수집한다.</p>
@@ -73,7 +100,7 @@
 
     <h2>제 10 조 (고지의 의무)</h2>
     <p>본 개인정보처리방침의 내용이 변경될 경우, 회사는 서비스 내 공지사항을 통해 이를 고지한다.</p>
-
+    </div>
 </div>
 </body>
 </html>

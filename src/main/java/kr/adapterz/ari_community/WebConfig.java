@@ -22,6 +22,14 @@ public class WebConfig implements WebMvcConfigurer {
         // /uploads/** → 파일 시스템 /Documents/images/ 로 매핑
         registry.addResourceHandler("/images/posts/**")
                 .addResourceLocations("file:/Documents/images/posts/");
+        
+        // FE 프로젝트의 레이아웃 CSS 파일 참조
+        registry.addResourceHandler("/layout/**")
+                .addResourceLocations("file:/Users/dvin/Documents/GitHub/3-ari-kim-community-FE/public/layout/");
+        
+        // FE 프로젝트의 index.css 파일 참조
+        registry.addResourceHandler("/index.css")
+                .addResourceLocations("file:/Users/dvin/Documents/GitHub/3-ari-kim-community-FE/");
     }
 
 }
