@@ -3,6 +3,8 @@ package kr.adapterz.ari_community.domain.post;
 import jakarta.persistence.*;
 import kr.adapterz.ari_community.domain.comment.Comment;
 import kr.adapterz.ari_community.domain.user.User;
+import kr.adapterz.ari_community.global.exception.CustomException;
+import kr.adapterz.ari_community.global.exception.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,20 +49,54 @@ public class Post {
     private String imageUrl;
 
     @Column(nullable = false)
-    @ColumnDefault("false")
+    @ColumnDefault("0")
     private Integer likeCount;
 
     @Column(nullable = false)
-    @ColumnDefault("false")
+    @ColumnDefault("0")
     private BigInteger viewCount;
 
     @Column(nullable = false)
-    @ColumnDefault("false")
+    @ColumnDefault("0")
     private Integer commentCount;
 
     // 단방향 연관관계, comment 테이블에 FK(post_id) 생성
     @OneToMany
     @JoinColumn(name = "postId")
     private List<Comment> comments = new ArrayList<>();
+
+    public Post(User user, String nickname, String title, String content, String imageUrl) {
+        if (nickname == null || nickname.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        } // 중복 검사 추가 필요
+        if (title == null || title.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        }
+        if (content == null || content.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        }
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        }
+        this.user = user;
+        this.nickname = nickname;
+        this.title = title;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public void updatePost(String title, Boolean isModified, String content, String imageUrl) {
+        if (title == null || title.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        }
+        if (content == null || content.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
+        }
+        this.title = title;
+        this.isModified = isModified;
+        this.content = content;
+        this.imageUrl = imageUrl;
+    }
 
 }

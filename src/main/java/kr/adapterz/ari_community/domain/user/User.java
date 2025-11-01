@@ -48,4 +48,13 @@ public class User {
     @JoinColumn(name = "userId")
     private List<PostLike> postLike = new ArrayList<>();
 
+    public void updateUser(String nickname, String profileUrl) {
+        this.nickname = nickname;
+        this.profileUrl = profileUrl;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 }

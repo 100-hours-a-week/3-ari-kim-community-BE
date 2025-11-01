@@ -104,10 +104,7 @@ public class PostService {
         String imageUrl = saveImageToServer(imageFile);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        post.setTitle(request.title());
-        post.setIsModified(true);
-        post.setContent(request.content());
-        post.setImageUrl(imageFile != null ? imageUrl : post.getImageUrl());
+        post.updatePost(request.title(), true, request.content(), imageFile != null ? imageUrl : post.getImageUrl());
         return post;
     }
 
