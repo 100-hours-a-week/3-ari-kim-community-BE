@@ -6,7 +6,6 @@ import kr.adapterz.ari_community.domain.post.Post;
 import kr.adapterz.ari_community.domain.postLike.PostLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,13 @@ public class User {
     @OneToMany
     @JoinColumn(name = "userId")
     private List<PostLike> postLike = new ArrayList<>();
+    
+    public User(String email, String password, String nickname, String profileUrl) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.profileUrl = profileUrl;
+    }
 
     public void updateUser(String nickname, String profileUrl) {
         this.nickname = nickname;
