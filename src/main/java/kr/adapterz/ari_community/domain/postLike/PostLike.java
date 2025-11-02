@@ -1,6 +1,7 @@
 package kr.adapterz.ari_community.domain.postLike;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,18 +18,20 @@ import java.math.BigInteger;
 public class PostLike {
 
     @Id
+    @GeneratedValue
+    private BigInteger postLikeId;
+
     @ManyToOne
     @JoinColumn(name = "postId")
-    private BigInteger postId;
+    private Post post;
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    private Integer userId;
+    private User user;
 
-    public PostLike(BigInteger postId, Integer userId) {
-        this.postId = postId;
-        this.userId = userId;
+    public PostLike(Post post, User user) {
+        this.post = post;
+        this.user = user;
     }
 
 }
-

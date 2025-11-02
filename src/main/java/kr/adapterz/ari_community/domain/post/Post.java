@@ -7,7 +7,6 @@ import kr.adapterz.ari_community.global.exception.CustomException;
 import kr.adapterz.ari_community.global.exception.ErrorCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigInteger;
