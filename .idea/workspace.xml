@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fef8f9d4-71d9-4979-9924-19e1794d2276" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/../3-ari-kim-community-FE/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../3-ari-kim-community-FE/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3-ari-kim-community/server/.gradle/8.14.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../3-ari-kim-community/server/.gradle/8.14.3/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3-ari-kim-community/server/src/main/java/kr/adapterz/ari_community/domain/post_like/Post_like.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3-ari-kim-community/server/src/main/java/kr/adapterz/ari_community/domain/post_like/Post_like.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3-ari-kim-community/server/src/main/java/kr/adapterz/ari_community/domain/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../3-ari-kim-community/server/src/main/java/kr/adapterz/ari_community/domain/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Kakao-Tech-Bootcamp_Cloud-Native-Course/.gradle/8.14/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Kakao-Tech-Bootcamp_Cloud-Native-Course/.gradle/8.14/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Kakao-Tech-Bootcamp_Cloud-Native-Course/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Kakao-Tech-Bootcamp_Cloud-Native-Course/.idea/gradle.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ari_community" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="34YasoUjlMbZrnLvfLcG6Yhp5WE" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="flattenModules" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.3-ari-kim-community-BE [:kr.adapterz.ari_community.AriCommunityApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.3-ari-kim-community-BE 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/dvin/Documents/GitHub/3-ari-kim-community-BE&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;모듈&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;애플리케이션.AriCommunityApplication.executor&quot;: &quot;Profiler#1&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
+      <recent name="$PROJECT_DIR$/src/main/resources/uploads/" />
+      <recent name="$PROJECT_DIR$/src/main/resources/uploads/posts" />
+      <recent name="$PROJECT_DIR$/src/main/resources/uploads/profiles" />
+      <recent name="$PROJECT_DIR$/src/main/resources/profiles" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="AriCommunityApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kr.adapterz.ari_community.AriCommunityApplication" />
+      <module name="kr.adapterz.ari_community.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="kr.adapterz.ari_community.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="ari_community" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="ari_community" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.AriCommunityApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="fef8f9d4-71d9-4979-9924-19e1794d2276" name="변경" comment="" />
+      <created>1761393169019</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761393169019</updated>
+    </task>
+    <servers />
+  </component>
+</project>
