@@ -1,6 +1,5 @@
 package kr.adapterz.ari_community.domain.comment;
 
-import kr.adapterz.ari_community.domain.post.Post;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
