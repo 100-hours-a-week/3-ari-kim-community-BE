@@ -26,7 +26,7 @@ public class PostLikeService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         
-        return postLikeRepository.findByPostIdAndUserId(postId, userId)
+        return postLikeRepository.findByPost_PostIdAndUser_UserId(postId, userId)
             // 게시물 좋아요를 누른 사용자이면 좋아요 삭제, Post에서 LikeCount -1
             .map(postLike -> {
                 postLikeRepository.delete(postLike);
