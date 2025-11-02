@@ -27,7 +27,7 @@ public record GetPostListResponse (
 
     public GetPostListResponse(Post post) {
         this(post.getPostId(), 
-        post.getNickname(), 
+        post.getUser().getNickname(),
         post.getTitle(), 
         post.getIsModified(), 
         post.getCreatedAt(), 

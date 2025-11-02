@@ -21,7 +21,7 @@ public class PostController {
 
     /* 게시물 목록 조회 (무한 스크롤링)
     URL: /posts?size=0 (첫페이지) 혹은 /posts?cursorId=0&size=0
-    Response DTO 요소: ID, 닉네임, 제목, 수정여부, 작성시각, 좋아요수, 조회수, 댓글수
+    Response DTO 요소: postId, 닉네임, 제목, 수정여부, 작성시각, 좋아요수, 조회수, 댓글수
      */
     @GetMapping
     public ResponseEntity<ApiResponse<Slice<GetPostListResponse>>> getPostList(
@@ -66,7 +66,7 @@ public class PostController {
     }
 
     // 게시물 삭제
-    @DeleteMapping("/{post_id}")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable BigInteger postId) {
         postService.deletePost(postId);
         return ResponseEntity.noContent().build();

@@ -28,9 +28,6 @@ public class Post {
     private User user;
 
     @Column(nullable = false)
-    private String nickname;
-
-    @Column(nullable = false)
     private String title;
 
     // 수정 여부: 기본값 0, 게시물 수정시 0->1
@@ -64,7 +61,9 @@ public class Post {
     @JoinColumn(name = "postId")
     private List<Comment> comments = new ArrayList<>();
 
-    public Post(User user, String nickname, String title, String content, String imageUrl) {
+    public Post(User user, String title, String content, String imageUrl) {
+        String nickname = user.getNickname();
+
         if (nickname == null || nickname.isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         } // 중복 검사 추가 필요
@@ -78,14 +77,13 @@ public class Post {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         }
         this.user = user;
-        this.nickname = nickname;
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
         this.createdAt = LocalDateTime.now();
     }
 
-    public void updatePost(String title, Boolean isModified, String content, String imageUrl) {
+    public void updatePost(String title, String content, String imageUrl) {
         if (title == null || title.isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         }
@@ -93,7 +91,7 @@ public class Post {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         }
         this.title = title;
-        this.isModified = isModified;
+        this.isModified = true;
         this.content = content;
         this.imageUrl = imageUrl;
     }

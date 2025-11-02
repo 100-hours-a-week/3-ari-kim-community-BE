@@ -34,7 +34,7 @@ public record GetPostDetailResponse (
     public GetPostDetailResponse(Post post) {
         this(post.getPostId(), 
         post.getUser().getUserId(), 
-        post.getNickname(), 
+        post.getUser().getNickname(),
         post.getTitle(), 
         post.getIsModified(), 
         post.getCreatedAt(), 

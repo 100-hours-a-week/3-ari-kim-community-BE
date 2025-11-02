@@ -79,7 +79,7 @@ public class PostService {
 
     /* 게시물 등록
     RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
-    user_id로 User정보(user, nickname)를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
+    user_id로 해당 User를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
     */
     @Transactional
     public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
@@ -88,7 +88,6 @@ public class PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = new Post(user,
-                user.getNickname(),
                 request.title(),
                 request.content(),
                 imageUrl);
@@ -104,7 +103,7 @@ public class PostService {
         String imageUrl = saveImageToServer(imageFile);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        post.updatePost(request.title(), true, request.content(), imageFile != null ? imageUrl : post.getImageUrl());
+        post.updatePost(request.title(), request.content(), imageFile != null ? imageUrl : post.getImageUrl());
         return post;
     }
 
