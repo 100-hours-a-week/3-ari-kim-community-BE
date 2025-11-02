@@ -1,6 +1,5 @@
 package kr.adapterz.ari_community.domain.postLike;
 
-import kr.adapterz.ari_community.domain.post.Post;
 import kr.adapterz.ari_community.global.success.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

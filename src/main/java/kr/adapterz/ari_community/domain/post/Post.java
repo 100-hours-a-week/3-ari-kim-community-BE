@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 public class Post {
 
@@ -97,6 +97,14 @@ public class Post {
         this.isModified = isModified;
         this.content = content;
         this.imageUrl = imageUrl;
+    }
+
+    public void increasePostLike() {
+        this.likeCount++;
+    }
+
+    public void decreasePostLike() {
+        this.likeCount--;
     }
 
 }
