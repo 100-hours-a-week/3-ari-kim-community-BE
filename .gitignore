@@ -1,0 +1,42 @@
+# 디폴트 무시된 파일
+/shelf/
+/.idea/workspace.xml
+
+# 로그 파일 제외
+logs/
+*.log
+!important.log
+
+*.tmp
+
+# 빌드 결과물 제외
+/build/
+*.o
+*.class
+
+# 환경 설정 파일 제외
+.env
+config/local.json
+
+# 컴파일된 클래스 파일
+*.class
+
+# 패키지 파일
+*.jar
+*.war
+*.ear
+
+# Maven/Gradle
+target/
+build/
+.gradle/
+
+# IntelliJ IDEA
+.idea
+
+# application.yml
+application.yml
+
+# Mac OS ###
+.DS_Store
+/.gradle

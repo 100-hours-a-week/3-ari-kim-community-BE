@@ -1,0 +1,118 @@
+package kr.adapterz.ari_community.domain.post;
+
+import jakarta.transaction.Transactional;
+import kr.adapterz.ari_community.domain.post.dto.request.CreateOrUpdatePostRequest;
+import kr.adapterz.ari_community.domain.post.dto.response.GetPostDetailResponse;
+import kr.adapterz.ari_community.domain.post.dto.response.GetPostListResponse;
+import kr.adapterz.ari_community.domain.user.User;
+import kr.adapterz.ari_community.domain.user.UserRepository;
+import kr.adapterz.ari_community.global.exception.CustomException;
+import kr.adapterz.ari_community.global.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class PostService {
+
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
+
+    /* 게시물 목록 조회
+    최초 조회시 post_id 오름차순에서 1-20번째 게시물을 가져옴
+    다음 페이지 조회시 post_id 오름차순에서 cursorId(마지막으로 조회한 게시물) 이후 1-20번째 게시물을 가져옴
+    가져온 게시물들을 DTO로 변환하여 반환
+    */
+    public Slice<GetPostListResponse> getPostList(BigInteger cursorId, Integer size) {
+        Slice<Post> postSlice;
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "postId"));
+
+        if (cursorId == null) { // 최초 조회시
+            postSlice = postRepository.findAllByOrderByPostIdDesc(pageable);
+        } else {
+            postSlice = postRepository.findByPostIdLessThanOrderByPostIdDesc(cursorId, pageable);
+        }
+
+        return postSlice.map(post -> new GetPostListResponse(post));
+    }
+
+    /* 게시물 상세 조회
+    post_id에 해당하는 게시물을 가져옴
+    */
+    public GetPostDetailResponse getPost(BigInteger postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        return new GetPostDetailResponse(post);
+    }
+
+    // 이미지 파일을 서버에 저장
+    private String saveImageToServer(MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            return null;
+        }
+        // posts 폴더에 "UUID_파일명.png" 으로 저장
+        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+        Path imagePath = Paths.get("/Documents/images/posts"); // 저장 경로
+        try {
+            if (!Files.exists(imagePath)) {
+                Files.createDirectories(imagePath); // 경로 폴더가 없으면 폴더를 생성
+            }
+            // 지정 경로에 파일 복사(저장)
+            Files.copy(image.getInputStream(), imagePath.resolve(fileName));
+            return "/images/posts/" + fileName;
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
+        }
+    }
+
+    /* 게시물 등록
+    RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
+    user_id로 해당 User를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
+    */
+    @Transactional
+    public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+        String imageUrl = saveImageToServer(imageFile);
+        User user = userRepository.findById(request.userId())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        Post post = new Post(user,
+                request.title(),
+                request.content(),
+                imageUrl);
+        return postRepository.save(post);
+    }
+
+    /* 게시물 수정
+    RequestDTO로 게시물 정보(제목, 내용, 이미지URL)를 가져오고, 이를 post_id에 해당하는 post에 적용함
+    isModified=0, 이미지 URL=null이면 기존 이미지 적용
+    */
+    @Transactional
+    public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+        String imageUrl = saveImageToServer(imageFile);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        post.updatePost(request.title(), request.content(), imageFile != null ? imageUrl : post.getImageUrl());
+        return post;
+    }
+
+    // 게시물 삭제
+    @Transactional
+    public void deletePost(BigInteger postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        postRepository.delete(post);
+    }
+
+}
