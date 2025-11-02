@@ -36,4 +36,17 @@ public class Comment {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    public Comment(Post post, User user, String content) {
+        // 추후 유효성 검사 추가
+        this.post = post;
+        this.user = user;
+        this.createdAt = LocalDateTime.now();
+        this.content = content;
+    }
+
+    public void updateComment(String content) {
+        this.content = content;
+        this.isModified = true;
+    }
+
 }

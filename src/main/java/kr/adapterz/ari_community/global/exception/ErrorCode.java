@@ -25,6 +25,9 @@ public enum ErrorCode {
     // post
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "P001", "해당 게시물을 찾을 수 없습니다."),
 
+    // comment
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "P001", "해당 댓글을 찾을 수 없습니다."),
+
     // image
     FILE_SIZE_EXCEEDED(HttpStatus.PAYLOAD_TOO_LARGE, "I001", "파일 최대 크기를 초과하였습니다."),
     FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "I002", "파일 업로드에 실패하였습니다.");
