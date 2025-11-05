@@ -1,9 +1,7 @@
 package kr.adapterz.ari_community.domain.comment.dto;
 
 import kr.adapterz.ari_community.domain.comment.Comment;
-import kr.adapterz.ari_community.domain.user.User;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 public record GetCommentsResponse(

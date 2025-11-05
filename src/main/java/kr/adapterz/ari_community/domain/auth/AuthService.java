@@ -21,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
+    // 사용자 로그인 처리 및 Access Token 생성
     @Transactional
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email())
@@ -41,6 +42,7 @@ public class AuthService {
         );
     }
 
+    // Refresh Token 검증 및 새로운 Access Token 발급
     public TokenRefreshResponse refreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
             throw new CustomException(ErrorCode.INVALID_TOKEN);

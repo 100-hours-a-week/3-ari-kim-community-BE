@@ -23,6 +23,7 @@ public class AuthController {
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
+    // 로그인 처리 및 Access Token 반환, Refresh Token을 쿠키에 저장
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(
             @RequestBody LoginRequest request,
@@ -46,6 +47,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(loginResponse, "로그인에 성공했습니다."));
     }
 
+    // Refresh Token을 사용하여 새로운 Access Token 발급
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<TokenRefreshResponse>> refreshToken(
             @CookieValue(value = "refreshToken", required = false) String refreshToken) {
@@ -61,6 +63,7 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success(tokenResponse, "토큰이 갱신되었습니다."));
     }
 
+    // 로그아웃 처리 및 Refresh Token 쿠키 삭제
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
         // Refresh Token 쿠키 삭제

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class JwtAuthorizationInterceptor implements HandlerInterceptor {
 
+    // 요청 처리 전 인증 여부 확인 및 인가 검증
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // OPTIONS 요청은 통과

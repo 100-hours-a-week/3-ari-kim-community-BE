@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtAuthorizationInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/**", "/posts");
+                .excludePathPatterns("/auth/**", "/posts", "/users/signup");
     }
 
     @Override
@@ -32,9 +32,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // /uploads/** → 파일 시스템 /Documents/images/ 로 매핑
+        // /images/posts/** → 파일 시스템 /Documents/images/posts/ 로 매핑
         registry.addResourceHandler("/images/posts/**")
                 .addResourceLocations("file:/Documents/images/posts/");
+
+        // /images/users/** → 파일 시스템 /Documents/images/users/ 로 매핑
+        registry.addResourceHandler("/images/users/**")
+                .addResourceLocations("file:/Documents/images/users/");
 
         // FE 프로젝트의 레이아웃 CSS 파일 참조
         registry.addResourceHandler("/layout/**")

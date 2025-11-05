@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuthUtil {
 
+    // 현재 인증된 사용자 ID 반환
     public static Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof JwtAuthenticationToken) {
@@ -14,6 +15,7 @@ public class AuthUtil {
         return null;
     }
 
+    // 현재 인증된 사용자 이메일 반환
     public static String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof JwtAuthenticationToken) {
