@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.global.util;
+package kr.adapterz.ari_community.global;
 
 import kr.adapterz.ari_community.global.jwt.JwtAuthenticationToken;
 import org.springframework.security.core.Authentication;

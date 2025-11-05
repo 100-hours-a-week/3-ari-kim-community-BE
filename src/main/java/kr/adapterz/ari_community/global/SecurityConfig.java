@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.global.security;
+package kr.adapterz.ari_community.global;
 
 import kr.adapterz.ari_community.global.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.swing.*;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +28,11 @@ public class SecurityConfig {
     //Spring Security 필터 체인 설정 - JWT 기반 인증 구성
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .requestMatchers("/users/signup", "/auth/login", "/posts").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
