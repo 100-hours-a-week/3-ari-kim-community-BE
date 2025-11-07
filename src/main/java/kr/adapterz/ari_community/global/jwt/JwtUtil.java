@@ -1,8 +1,11 @@
 package kr.adapterz.ari_community.global.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import kr.adapterz.ari_community.global.exception.CustomException;
+import kr.adapterz.ari_community.global.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -102,6 +105,32 @@ public class JwtUtil {
             return false;
         }
     }
+
+    // 토큰을 검증하고 인증 객체를 반환 
+    public JwtAuthenticationToken validateAndExtractAuthentication(String token) {
+        try {
+            Claims claims = extractClaims(token);
+            // 만료 여부 확인
+            if (claims.getExpiration().before(new Date())) {
+                throw new CustomException(ErrorCode.EXPIRED_TOKEN);
+            }
+            // 토큰 타입 확인
+            String tokenType = claims.get("type", String.class);
+            if (!"ACCESS".equals(tokenType)) {
+                throw new CustomException(ErrorCode.INVALID_TOKEN);
+            }
+            // 인증 객체 생성 및 반환
+            Integer userId = Integer.parseInt(claims.getSubject());
+            String email = claims.get("email", String.class);
+
+            return new JwtAuthenticationToken(userId, email);
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(ErrorCode.EXPIRED_TOKEN);
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+    }
+
 }
-
-

@@ -5,7 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.adapterz.ari_community.global.exception.CustomException;
-import kr.adapterz.ari_community.global.exception.ErrorCode;
 import kr.adapterz.ari_community.global.exception.FilterExceptionResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,20 +31,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = extractToken(request);
 
-        if (StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
+        // 토큰이 추출되었으면 검증 및 인증 객체 생성
+        if (StringUtils.hasText(token)) {
             try {
-                Integer userId = jwtUtil.getUserId(token);
-                String email = jwtUtil.getEmail(token);
-                String tokenType = jwtUtil.getTokenType(token);
-
-                // Access Token만 인증에 사용
-                if ("ACCESS".equals(tokenType)) {
-                    JwtAuthenticationToken authentication = new JwtAuthenticationToken(userId, email);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (Exception e) {
+                // 토큰 검증 및 인증 객체 반환
+                JwtAuthenticationToken authentication = jwtUtil.validateAndExtractAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (CustomException e) {
                 // Filter에서 발생한 예외를 HandlerExceptionResolver로 위임
-                FilterExceptionResolver.setException(request, new CustomException(ErrorCode.INVALID_TOKEN));
+                FilterExceptionResolver.setException(request, e);
             }
         }
 
