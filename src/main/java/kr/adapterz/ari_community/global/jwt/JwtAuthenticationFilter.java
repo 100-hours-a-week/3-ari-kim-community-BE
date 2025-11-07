@@ -4,6 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.adapterz.ari_community.global.exception.CustomException;
+import kr.adapterz.ari_community.global.exception.ErrorCode;
+import kr.adapterz.ari_community.global.exception.FilterExceptionResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             } catch (Exception e) {
-                log.error("JWT 토큰 처리 중 오류 발생", e);
+                // Filter에서 발생한 예외를 HandlerExceptionResolver로 위임
+                FilterExceptionResolver.setException(request, new CustomException(ErrorCode.INVALID_TOKEN));
             }
         }
 

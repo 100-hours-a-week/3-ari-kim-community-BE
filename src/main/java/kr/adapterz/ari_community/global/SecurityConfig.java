@@ -31,9 +31,12 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // 인증이 필요하지 않는 경로
                         .requestMatchers("/users/signup", "/auth/login", "/posts").permitAll()
+                        // 나머지 경로에서는 인증 과정을 거침
                         .anyRequest().authenticated()
                 )
+                // 아이디/비밀번호 인증 필터 순서 앞에 JWT 인증 필터 위치
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

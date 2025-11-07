@@ -1,12 +1,16 @@
 package kr.adapterz.ari_community;
 
+import kr.adapterz.ari_community.global.exception.FilterExceptionResolver;
 import kr.adapterz.ari_community.global.jwt.JwtAuthorizationInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;                                                                               
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;      
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;      
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,6 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtAuthorizationInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/auth/**", "/posts", "/users/signup");
+    }
+
+    @Override
+    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.add(0, new FilterExceptionResolver());
     }
 
     @Override

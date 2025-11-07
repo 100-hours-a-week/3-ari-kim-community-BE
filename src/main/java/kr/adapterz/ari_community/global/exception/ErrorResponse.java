@@ -1,5 +1,8 @@
 package kr.adapterz.ari_community.global.exception;
 
+import lombok.Getter;
+
+@Getter
 public class ErrorResponse {
 
     private final int status;
