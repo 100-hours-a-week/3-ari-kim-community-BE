@@ -40,7 +40,7 @@ public class AuthController {
 
     // Refresh Token을 사용하여 새로운 Access Token 발급
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<TokenRefreshResponse>> refreshToken(
+    public ResponseEntity<ApiResponse<TokenRefreshResponse>> reissueAccessToken(
             @CookieValue(value = "refreshToken", required = false) String refreshToken) {
 
         if (refreshToken == null || refreshToken.isEmpty()) {
@@ -49,8 +49,7 @@ public class AuthController {
             );
         }
 
-        TokenRefreshResponse tokenResponse = authService.refreshToken(refreshToken);
-
+        TokenRefreshResponse tokenResponse = authService.reissueAccessToken(refreshToken);
         return ResponseEntity.ok(ApiResponse.success(tokenResponse, "토큰이 갱신되었습니다."));
     }
 
