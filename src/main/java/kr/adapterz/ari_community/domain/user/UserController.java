@@ -1,12 +1,15 @@
 package kr.adapterz.ari_community.domain.user;
 
+import kr.adapterz.ari_community.domain.user.dto.request.SignupRequest;
 import kr.adapterz.ari_community.domain.user.dto.request.UpdatePasswordRequest;
 import kr.adapterz.ari_community.domain.user.dto.request.UpdateUserRequest;
+import kr.adapterz.ari_community.domain.user.dto.response.SignupResponse;
 import kr.adapterz.ari_community.domain.user.dto.response.UpdateUserResponse;
 import kr.adapterz.ari_community.global.success.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,6 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    /* 회원가입
+    RequestBody로 DTO 요소들을 가져옴
+    Request DTO 요소: 이메일, 비밀번호, 닉네임, 프로필URL
+    */
+    @PostMapping("/signup")
+    public ResponseEntity<ApiResponse<SignupResponse>> signup(
+            @ModelAttribute SignupRequest request,
+            @RequestPart(value = "profileUrl", required = false) MultipartFile profileUrl) {
+        SignupResponse signupResponse = userService.signup(request, profileUrl);
+        return ResponseEntity.ok(ApiResponse.success(signupResponse));
+    }
 
     /* 회원 정보 수정
     PathVariable로 user_id를, RequestBody로 DTO 요소들을 가져옴
@@ -33,7 +48,6 @@ public class UserController {
     @PatchMapping("/{userId}/password")
     public ResponseEntity<ApiResponse<UpdateUserResponse>> updatePassword(@PathVariable Integer userId, @RequestBody UpdatePasswordRequest request) {
         UpdateUserResponse updatedUser = userService.updatePassword(userId, request);
-        // 4. 성공 시 200 OK 응답
         return ResponseEntity.ok(ApiResponse.success(updatedUser, "비밀번호가 변경되었습니다."));
     }
 
