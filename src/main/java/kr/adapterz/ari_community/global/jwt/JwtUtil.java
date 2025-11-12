@@ -133,4 +133,16 @@ public class JwtUtil {
         }
     }
 
+    // Refresh Token 검증
+    public void validateRefreshToken(String refreshToken) {
+        if (!validateToken(refreshToken)) { // 토큰 유효성 검증
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+
+        String tokenType = getTokenType(refreshToken);
+        if (!"REFRESH".equals(tokenType)) { // Refresh Token 타입 확인
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+    }
+
 }

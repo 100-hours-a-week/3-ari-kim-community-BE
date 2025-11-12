@@ -40,3 +40,4 @@ application.yml
 # Mac OS ###
 .DS_Store
 /.gradle
+/.vscode

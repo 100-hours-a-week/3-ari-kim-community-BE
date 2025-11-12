@@ -10,15 +10,15 @@ import kr.adapterz.ari_community.global.exception.CustomException;
 import kr.adapterz.ari_community.global.exception.ErrorCode;
 import kr.adapterz.ari_community.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     // 사용자 로그인 처리 및 Access Token 생성
@@ -27,40 +27,25 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_CREDENTIALS));
 
-        // 비밀번호 검증 (실제로는 BCrypt 등으로 암호화되어 있을 것)
-        if (!Objects.equals(user.getPassword(), request.password())) {
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new CustomException(ErrorCode.INVALID_CREDENTIALS);
         }
-
+        // Access Token 발급
         String accessToken = jwtUtil.generateAccessToken(user.getUserId(), user.getEmail());
-
-        return new LoginResponse(
-                accessToken,
-                user.getUserId(),
-                user.getEmail(),
-                user.getNickname()
-        );
+        return new LoginResponse(accessToken, user);
     }
 
-    // Refresh Token 검증 및 새로운 Access Token 발급
-    public TokenRefreshResponse refreshToken(String refreshToken) {
-        if (!jwtUtil.validateToken(refreshToken)) {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
-        }
-
-        String tokenType = jwtUtil.getTokenType(refreshToken);
-        if (!"REFRESH".equals(tokenType)) {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
-        }
-
+    // Refresh Token을 사용하여 새로운 Access Token 발급
+    public TokenRefreshResponse reissueAccessToken(String refreshToken) {
+        // 위조/만료 여부 검증
+        jwtUtil.validateRefreshToken(refreshToken);
         Integer userId = jwtUtil.getUserId(refreshToken);
-        String email = jwtUtil.getEmail(refreshToken);
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+        
+        // 새로운 Access Token 발급
         String newAccessToken = jwtUtil.generateAccessToken(user.getUserId(), user.getEmail());
-
         return new TokenRefreshResponse(newAccessToken);
     }
 }

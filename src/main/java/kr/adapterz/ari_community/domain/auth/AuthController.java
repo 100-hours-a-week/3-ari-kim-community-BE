@@ -1,14 +1,13 @@
 package kr.adapterz.ari_community.domain.auth;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.adapterz.ari_community.domain.auth.dto.request.LoginRequest;
 import kr.adapterz.ari_community.domain.auth.dto.response.LoginResponse;
 import kr.adapterz.ari_community.domain.auth.dto.response.TokenRefreshResponse;
+import kr.adapterz.ari_community.global.util.CookieUtil;
 import kr.adapterz.ari_community.global.jwt.JwtUtil;
 import kr.adapterz.ari_community.global.success.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtUtil jwtUtil;
-
-    @Value("${jwt.refresh-token-expiration}")
-    private long refreshTokenExpiration;
+    private final CookieUtil cookieUtil;
 
     // 로그인 처리 및 Access Token 반환, Refresh Token을 쿠키에 저장
     @PostMapping("/login")
@@ -36,13 +33,7 @@ public class AuthController {
                 loginResponse.userId(),
                 loginResponse.email()
         );
-
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false); // HTTPS 환경에서는 true로 설정
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge((int) (refreshTokenExpiration / 1000)); // 초 단위로 변환
-        response.addCookie(refreshTokenCookie);
+        cookieUtil.setRefreshTokenCookie(refreshToken, response);
 
         return ResponseEntity.ok(ApiResponse.success(loginResponse, "로그인에 성공했습니다."));
     }
@@ -66,13 +57,8 @@ public class AuthController {
     // 로그아웃 처리 및 Refresh Token 쿠키 삭제
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
-        // Refresh Token 쿠키 삭제
-        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(0);
-        response.addCookie(refreshTokenCookie);
-
+        cookieUtil.deleteRefreshTokenCookie(response);
         return ResponseEntity.ok(ApiResponse.success(null, "로그아웃되었습니다."));
     }
+
 }
