@@ -10,9 +10,11 @@ import kr.adapterz.ari_community.global.exception.CustomException;
 import kr.adapterz.ari_community.global.exception.ErrorCode;
 import kr.adapterz.ari_community.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -33,6 +35,7 @@ public class AuthService {
         }
         // Access Token 발급
         String accessToken = jwtUtil.generateAccessToken(user.getUserId(), user.getEmail());
+        log.info("로그인 성공, Access Token 발급 - userId: {}", user.getUserId());
         return new LoginResponse(accessToken, user);
     }
 
@@ -46,6 +49,7 @@ public class AuthService {
         
         // 새로운 Access Token 발급
         String newAccessToken = jwtUtil.generateAccessToken(user.getUserId(), user.getEmail());
+        log.info("Access 토큰 재발급 - userId: {}", userId);
         return new TokenRefreshResponse(newAccessToken);
     }
 }

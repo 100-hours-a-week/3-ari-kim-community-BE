@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import kr.adapterz.ari_community.global.exception.CustomException;
 import kr.adapterz.ari_community.global.exception.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -46,12 +48,16 @@ public class JwtUtil {
 
     // Access Token 생성
     public String generateAccessToken(Integer userId, String email) {
-        return generateToken(userId, email, "ACCESS", accessTokenExpiration);
+        String token = generateToken(userId, email, "ACCESS", accessTokenExpiration);
+        log.info("Access 토큰 발급 - userId: {}", userId);
+        return token;
     }
 
     // Refresh Token 생성
     public String generateRefreshToken(Integer userId, String email) {
-        return generateToken(userId, email, "REFRESH", refreshTokenExpiration);
+        String token = generateToken(userId, email, "REFRESH", refreshTokenExpiration);
+        log.info("Refresh 토큰 발급 - userId: {}", userId);
+        return token;
     }
 
     // 토큰에서 Claims 추출
@@ -106,6 +112,12 @@ public class JwtUtil {
         try {
             // 만료 여부 확인
             if (isTokenExpired(token)) {
+                try {
+                    Integer userId = getUserId(token);
+                    log.warn("토큰 만료 - userId: {}", userId);
+                } catch (Exception e) {
+                    log.warn("토큰 만료 - userId 추출 불가");
+                }
                 throw new CustomException(ErrorCode.EXPIRED_TOKEN);
             }
             // 토큰 타입 확인
