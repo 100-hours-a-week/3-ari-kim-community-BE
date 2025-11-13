@@ -29,34 +29,29 @@ public class JwtUtil {
         this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
-    // Access Token 생성
-    public String generateAccessToken(Integer userId, String email) {
+    // 토큰 생성 메소드
+    private String generateToken(Integer userId, String email, String tokenType, long expiration) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + accessTokenExpiration);
+        Date expiryDate = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
                 .subject(String.valueOf(userId))
                 .claim("email", email)
-                .claim("type", "ACCESS")
+                .claim("type", tokenType)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(secretKey)
                 .compact();
     }
 
+    // Access Token 생성
+    public String generateAccessToken(Integer userId, String email) {
+        return generateToken(userId, email, "ACCESS", accessTokenExpiration);
+    }
+
     // Refresh Token 생성
     public String generateRefreshToken(Integer userId, String email) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + refreshTokenExpiration);
-
-        return Jwts.builder()
-                .subject(String.valueOf(userId))
-                .claim("email", email)
-                .claim("type", "REFRESH")
-                .issuedAt(now)
-                .expiration(expiryDate)
-                .signWith(secretKey)
-                .compact();
+        return generateToken(userId, email, "REFRESH", refreshTokenExpiration);
     }
 
     // 토큰에서 Claims 추출
@@ -107,21 +102,20 @@ public class JwtUtil {
     }
 
     // 토큰을 검증하고 인증 객체를 반환 
-    public JwtAuthenticationToken validateAndExtractAuthentication(String token) {
+    public JwtAuthenticationToken ExtractAuthentication(String token) {
         try {
-            Claims claims = extractClaims(token);
             // 만료 여부 확인
-            if (claims.getExpiration().before(new Date())) {
+            if (isTokenExpired(token)) {
                 throw new CustomException(ErrorCode.EXPIRED_TOKEN);
             }
             // 토큰 타입 확인
-            String tokenType = claims.get("type", String.class);
+            String tokenType = getTokenType(token);
             if (!"ACCESS".equals(tokenType)) {
                 throw new CustomException(ErrorCode.INVALID_TOKEN);
             }
             // 인증 객체 생성 및 반환
-            Integer userId = Integer.parseInt(claims.getSubject());
-            String email = claims.get("email", String.class);
+            Integer userId = getUserId(token);
+            String email = getEmail(token);
 
             return new JwtAuthenticationToken(userId, email);
         } catch (ExpiredJwtException e) {
