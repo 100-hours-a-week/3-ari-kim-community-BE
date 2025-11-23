@@ -9,10 +9,14 @@ public record CreateOrUpdatePostRequest (
 
     String title,
 
-    String content
+    String content,
+
+    String imageUrl
 
 ) {
+
     public Post toEntity(User user, String imageUrl) {
         return new Post(user, title, content, imageUrl);
     }
+    
 }

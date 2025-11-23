@@ -73,9 +73,6 @@ public class Post {
         if (content == null || content.isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         }
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
-        }
         this.user = user;
         this.title = title;
         this.content = content;

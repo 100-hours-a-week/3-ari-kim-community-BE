@@ -9,7 +9,6 @@ import kr.adapterz.ari_community.global.success.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +23,8 @@ public class UserController {
     */
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<SignupResponse>> signup(
-            @ModelAttribute SignupRequest request,
-            @RequestPart(value = "profileUrl", required = false) MultipartFile profileUrl) {
-        SignupResponse signupResponse = userService.signup(request, profileUrl);
+            @RequestBody SignupRequest request) {
+        SignupResponse signupResponse = userService.signup(request);
         return ResponseEntity.ok(ApiResponse.success(signupResponse));
     }
 

@@ -14,14 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -60,37 +54,17 @@ public class PostService {
         return new GetPostDetailResponse(post);
     }
 
-    // 이미지 파일을 서버에 저장
-    private String saveImageToServer(MultipartFile image) {
-        if (image == null || image.isEmpty()) {
-            return null;
-        }
-        // posts 폴더에 "UUID_파일명.png" 으로 저장
-        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-        Path imagePath = Paths.get("/Documents/images/posts"); // 저장 경로
-        try {
-            if (!Files.exists(imagePath)) {
-                Files.createDirectories(imagePath); // 경로 폴더가 없으면 폴더를 생성
-            }
-            // 지정 경로에 파일 복사(저장)
-            Files.copy(image.getInputStream(), imagePath.resolve(fileName));
-            return "/images/posts/" + fileName;
-        } catch (IOException e) {
-            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
-        }
-    }
 
     /* 게시물 등록
     RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
     user_id로 해당 User를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
     */
     @Transactional
-    public GetPostDetailResponse createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
-        String imageUrl = saveImageToServer(imageFile);
+    public GetPostDetailResponse createPost(CreateOrUpdatePostRequest request) {
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Post post = request.toEntity(user, imageUrl);
+        Post post = request.toEntity(user, request.imageUrl());
         Post savedPost = postRepository.save(post);
         return new GetPostDetailResponse(savedPost);
     }
@@ -100,11 +74,14 @@ public class PostService {
     isModified=0, 이미지 URL=null이면 기존 이미지 적용
     */
     @Transactional
-    public GetPostDetailResponse updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
-        String imageUrl = saveImageToServer(imageFile);
+    public GetPostDetailResponse updatePost(BigInteger postId, CreateOrUpdatePostRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        post.updatePost(request.title(), request.content(), imageFile != null ? imageUrl : post.getImageUrl());
+        
+        // imageUrl이 제공된 경우에만 업데이트, null이면 기존 값 유지
+        String imageUrl = request.imageUrl() != null ? request.imageUrl() : post.getImageUrl();
+        
+        post.updatePost(request.title(), request.content(), imageUrl);
         return new GetPostDetailResponse(post);
     }
 

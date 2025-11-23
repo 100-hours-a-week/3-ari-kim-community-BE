@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 
@@ -44,10 +43,9 @@ public class PostController {
      */
     @PostMapping
     public ResponseEntity<ApiResponse<GetPostDetailResponse>> createPost(
-            @ModelAttribute CreateOrUpdatePostRequest request,
-            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+            @RequestBody CreateOrUpdatePostRequest request
             ) {
-        GetPostDetailResponse createdPost = postService.createPost(request, imageFile);
+        GetPostDetailResponse createdPost = postService.createPost(request);
         return ResponseEntity.ok(ApiResponse.success(createdPost));
     }
 
@@ -58,10 +56,9 @@ public class PostController {
     @PatchMapping("/{postId}")
     public ResponseEntity<ApiResponse<GetPostDetailResponse>> updatePost(
             @PathVariable BigInteger postId,
-            @ModelAttribute CreateOrUpdatePostRequest request,
-            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
+            @RequestBody CreateOrUpdatePostRequest request
             ) {
-        GetPostDetailResponse updatedPost = postService.updatePost(postId, request, imageFile);
+        GetPostDetailResponse updatedPost = postService.updatePost(postId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedPost));
     }
 

@@ -11,13 +11,6 @@ import kr.adapterz.ari_community.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,33 +19,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 이미지 파일을 서버에 저장
-    private String saveImageToServer(MultipartFile image) {
-        if (image == null || image.isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
-        }
-        // users 폴더에 "UUID_파일명.png" 으로 저장
-        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-        Path imagePath = Paths.get("/Documents/images/users");
-
-        try {
-            if (!Files.exists(imagePath)) {
-                Files.createDirectories(imagePath);
-            }
-            // 지정 경로에 파일 복사(저장)
-            Files.copy(image.getInputStream(), imagePath.resolve(fileName));
-            return "/images/users/" + fileName;
-        } catch (IOException e) {
-            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
-        }
-    }
-
     /* 회원가입
     RequestDTO로 회원 정보(이메일, 비밀번호, 닉네임)를 가져오고, imageFile을 받음
     중복 확인, 암호화 과정을 거친 뒤 사용자 생성 및 저장함
     */
     @Transactional
-    public SignupResponse signup(SignupRequest request, MultipartFile imageFile) {
+    public SignupResponse signup(SignupRequest request) {
         // 이메일 중복 확인
         if (userRepository.findByEmail(request.email()).isPresent()) {
             throw new CustomException(ErrorCode.EMAIL_DUPLICATION);
@@ -63,15 +35,13 @@ public class UserService {
         }
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(request.password());
-        // 프로필 이미지 저장
-        String profileUrl = saveImageToServer(imageFile);
 
-        // 사용자 생성 및 저장
+        // 사용자 생성 및 저장 (profileUrl은 클라이언트가 S3에 업로드한 URL)
         User user = new User(
                 request.email(),
                 encodedPassword,
                 request.nickname(),
-                profileUrl
+                request.profileUrl()
         );
         User savedUser = userRepository.save(user);
 
