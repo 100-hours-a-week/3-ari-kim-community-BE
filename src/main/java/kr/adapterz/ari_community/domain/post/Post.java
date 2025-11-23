@@ -104,4 +104,11 @@ public class Post {
         this.likeCount--;
     }
 
+    public void increaseViewCount() {
+        if (this.viewCount == null) {
+            this.viewCount = BigInteger.ZERO;
+        }
+        this.viewCount = this.viewCount.add(BigInteger.ONE);
+    }
+
 }

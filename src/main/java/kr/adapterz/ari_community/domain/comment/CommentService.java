@@ -47,13 +47,14 @@ public class CommentService {
     해당 Post와 User를 찾고 Comment를 생성해 DB에 저장함
     */
     @Transactional
-    public Comment createComment(BigInteger postId, CreateOrUpdateCommentRequest request) {
+    public GetCommentsResponse createComment(BigInteger postId, CreateOrUpdateCommentRequest request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        Comment comment = new Comment(post, user, request.content());
-        return commentRepository.save(comment);
+        Comment comment = request.toEntity(post, user);
+        Comment savedComment = commentRepository.save(comment);
+        return new GetCommentsResponse(savedComment);
     }
 
     /* 댓글 수정
@@ -61,11 +62,11 @@ public class CommentService {
     해당 Post와 User를 찾고 Comment를 생성해 DB에 저장함
     */
     @Transactional
-    public Comment updateComment(Integer commentId, CreateOrUpdateCommentRequest request) {
+    public GetCommentsResponse updateComment(Integer commentId, CreateOrUpdateCommentRequest request) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         comment.updateComment(request.content());
-        return comment;
+        return new GetCommentsResponse(comment);
     }
 
     // 댓글 삭제

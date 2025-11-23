@@ -24,8 +24,8 @@ public record GetCommentsResponse(
         this(comment.getCommentId(),
                 comment.getUser().getNickname(),
                 comment.getUser().getProfileUrl(),
-                false,
-                LocalDateTime.now(),
+                comment.getIsModified(),
+                comment.getCreatedAt(),
                 comment.getContent());
     }
 

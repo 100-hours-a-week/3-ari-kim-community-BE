@@ -50,10 +50,13 @@ public class PostService {
 
     /* 게시물 상세 조회
     post_id에 해당하는 게시물을 가져옴
+    조회 시 조회수 증가
     */
+    @Transactional
     public GetPostDetailResponse getPost(BigInteger postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        post.increaseViewCount(); // 조회수 증가
         return new GetPostDetailResponse(post);
     }
 
@@ -82,16 +85,14 @@ public class PostService {
     user_id로 해당 User를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
     */
     @Transactional
-    public Post createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+    public GetPostDetailResponse createPost(CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Post post = new Post(user,
-                request.title(),
-                request.content(),
-                imageUrl);
-        return postRepository.save(post);
+        Post post = request.toEntity(user, imageUrl);
+        Post savedPost = postRepository.save(post);
+        return new GetPostDetailResponse(savedPost);
     }
 
     /* 게시물 수정
@@ -99,12 +100,12 @@ public class PostService {
     isModified=0, 이미지 URL=null이면 기존 이미지 적용
     */
     @Transactional
-    public Post updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
+    public GetPostDetailResponse updatePost(BigInteger postId, CreateOrUpdatePostRequest request, MultipartFile imageFile) {
         String imageUrl = saveImageToServer(imageFile);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.updatePost(request.title(), request.content(), imageFile != null ? imageUrl : post.getImageUrl());
-        return post;
+        return new GetPostDetailResponse(post);
     }
 
     // 게시물 삭제

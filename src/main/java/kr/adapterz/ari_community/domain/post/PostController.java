@@ -43,11 +43,11 @@ public class PostController {
     Request DTO 요소: user_id, 제목, 내용, 이미지 URL(선택)
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Post>> createPost(
+    public ResponseEntity<ApiResponse<GetPostDetailResponse>> createPost(
             @ModelAttribute CreateOrUpdatePostRequest request,
             @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
             ) {
-        Post createdPost = postService.createPost(request, imageFile);
+        GetPostDetailResponse createdPost = postService.createPost(request, imageFile);
         return ResponseEntity.ok(ApiResponse.success(createdPost));
     }
 
@@ -56,12 +56,12 @@ public class PostController {
     Request DTO 요소: 제목, 내용, 이미지 URL(선택)
      */
     @PatchMapping("/{postId}")
-    public ResponseEntity<ApiResponse<Post>> updatePost(
+    public ResponseEntity<ApiResponse<GetPostDetailResponse>> updatePost(
             @PathVariable BigInteger postId,
             @ModelAttribute CreateOrUpdatePostRequest request,
             @RequestPart(value = "imageFile", required = false) MultipartFile imageFile
             ) {
-        Post updatedPost = postService.updatePost(postId, request, imageFile);
+        GetPostDetailResponse updatedPost = postService.updatePost(postId, request, imageFile);
         return ResponseEntity.ok(ApiResponse.success(updatedPost));
     }
 

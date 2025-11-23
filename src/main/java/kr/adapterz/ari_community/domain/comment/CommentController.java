@@ -34,8 +34,8 @@ public class CommentController {
     Request DTO 요소: userId, 내용
     */
     @PostMapping
-    public ResponseEntity<ApiResponse<Comment>> createPost(@RequestParam BigInteger postId, @RequestBody CreateOrUpdateCommentRequest request) {
-        Comment createdComment = commentService.createComment(postId, request);
+    public ResponseEntity<ApiResponse<GetCommentsResponse>> createPost(@RequestParam BigInteger postId, @RequestBody CreateOrUpdateCommentRequest request) {
+        GetCommentsResponse createdComment = commentService.createComment(postId, request);
         return ResponseEntity.ok(ApiResponse.success(createdComment));
     }
 
@@ -44,10 +44,10 @@ public class CommentController {
     Request DTO 요소: userId, 내용
     */
     @PatchMapping("/{commentId}")
-    public ResponseEntity<ApiResponse<Comment>> UpdateComment(
+    public ResponseEntity<ApiResponse<GetCommentsResponse>> UpdateComment(
             @RequestParam Integer commentId,
             @RequestBody CreateOrUpdateCommentRequest request) {
-        Comment updatedComment = commentService.updateComment(commentId, request);
+        GetCommentsResponse updatedComment = commentService.updateComment(commentId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedComment));
     }
 
