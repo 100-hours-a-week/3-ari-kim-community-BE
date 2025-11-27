@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, BigInteger> {
@@ -16,5 +17,7 @@ public interface PostRepository extends JpaRepository<Post, BigInteger> {
 
     @Query("SELECT p FROM Post p WHERE p.postId < :cursorId ORDER BY p.postId DESC")
     Slice<Post> findByPostIdLessThanOrderByPostIdDesc(@Param("cursorId") BigInteger cursorId, Pageable pageable);
+
+    List<Post> findByUser_UserId(Integer userId);
 
 }

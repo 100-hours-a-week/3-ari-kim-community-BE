@@ -73,14 +73,16 @@ public class Post {
         if (content == null || content.isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
         }
-        if (imageUrl == null || imageUrl.isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_INPUT_VALUE);
-        }
         this.user = user;
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;
         this.createdAt = LocalDateTime.now();
+        // 필수 필드 초기화
+        this.isModified = false;
+        this.likeCount = 0;
+        this.viewCount = BigInteger.ZERO;
+        this.commentCount = 0;
     }
 
     public void updatePost(String title, String content, String imageUrl) {
@@ -102,6 +104,28 @@ public class Post {
 
     public void decreasePostLike() {
         this.likeCount--;
+    }
+
+    public void increaseViewCount() {
+        if (this.viewCount == null) {
+            this.viewCount = BigInteger.ZERO;
+        }
+        this.viewCount = this.viewCount.add(BigInteger.ONE);
+    }
+
+    public void increaseCommentCount() {
+        if (this.commentCount == null) {
+            this.commentCount = 0;
+        }
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        if (this.commentCount == null || this.commentCount <= 0) {
+            this.commentCount = 0;
+            return;
+        }
+        this.commentCount--;
     }
 
 }

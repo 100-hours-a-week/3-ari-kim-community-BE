@@ -8,8 +8,6 @@ public record UpdateUserResponse (
 
     String nickname,
 
-    String password,
-
     String profileUrl
 
 ) {
@@ -17,7 +15,6 @@ public record UpdateUserResponse (
     public UpdateUserResponse(User user) {
         this(user.getUserId(), 
         user.getNickname(), 
-        user.getPassword(), 
         user.getProfileUrl());
     }
 

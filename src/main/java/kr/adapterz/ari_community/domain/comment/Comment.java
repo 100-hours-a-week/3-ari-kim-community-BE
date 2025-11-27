@@ -38,10 +38,17 @@ public class Comment {
 
     public Comment(Post post, User user, String content) {
         // 추후 유효성 검사 추가
+        if (content == null || content.isEmpty()) {
+            throw new kr.adapterz.ari_community.global.exception.CustomException(
+                kr.adapterz.ari_community.global.exception.ErrorCode.INVALID_INPUT_VALUE
+            );
+        }
         this.post = post;
         this.user = user;
         this.createdAt = LocalDateTime.now();
         this.content = content;
+        // 필수 필드 초기화
+        this.isModified = false;
     }
 
     public void updateComment(String content) {

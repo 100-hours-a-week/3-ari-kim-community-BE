@@ -11,6 +11,8 @@ public record GetPostListResponse (
 
     String nickname,
 
+    String profileUrl,
+
     String title,
 
     Boolean isModified,
@@ -27,7 +29,8 @@ public record GetPostListResponse (
 
     public GetPostListResponse(Post post) {
         this(post.getPostId(), 
-        post.getUser().getNickname(),
+        (post.getUser() != null) ? post.getUser().getNickname() : "(탈퇴한 사용자)",
+        (post.getUser() != null) ? post.getUser().getProfileUrl() : null,
         post.getTitle(), 
         post.getIsModified(), 
         post.getCreatedAt(), 
