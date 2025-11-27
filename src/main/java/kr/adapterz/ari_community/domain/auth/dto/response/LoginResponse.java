@@ -10,7 +10,9 @@ public record LoginResponse(
 
         String email,
 
-        String nickname
+        String nickname,
+
+        String profileUrl
 
 ) {
 
@@ -18,7 +20,8 @@ public record LoginResponse(
                 this(accessToken, 
                 user.getUserId(), 
                 user.getEmail(), 
-                user.getNickname());
+                user.getNickname(),
+                user.getProfileUrl());
         }
 
 }
