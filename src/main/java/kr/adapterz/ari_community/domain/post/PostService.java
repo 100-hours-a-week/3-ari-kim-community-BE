@@ -1,9 +1,11 @@
 package kr.adapterz.ari_community.domain.post;
 
 import jakarta.transaction.Transactional;
+import kr.adapterz.ari_community.domain.comment.CommentRepository;
 import kr.adapterz.ari_community.domain.post.dto.request.CreateOrUpdatePostRequest;
 import kr.adapterz.ari_community.domain.post.dto.response.GetPostDetailResponse;
 import kr.adapterz.ari_community.domain.post.dto.response.GetPostListResponse;
+import kr.adapterz.ari_community.domain.postLike.PostLikeRepository;
 import kr.adapterz.ari_community.domain.user.User;
 import kr.adapterz.ari_community.domain.user.UserRepository;
 import kr.adapterz.ari_community.global.exception.CustomException;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class PostService {
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final PostLikeRepository postLikeRepository;
 
     /* 게시물 목록 조회
     최초 조회시 post_id 오름차순에서 1-20번째 게시물을 가져옴
@@ -90,6 +95,17 @@ public class PostService {
     public void deletePost(BigInteger postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        
+        // 게시물 삭제 전에 관련된 댓글과 좋아요 먼저 삭제
+        // 댓글 삭제 (Pageable 없이 모든 댓글 조회)
+        List<kr.adapterz.ari_community.domain.comment.Comment> comments = 
+            commentRepository.findByPost_PostIdOrderByCommentIdDesc(postId, Pageable.unpaged()).getContent();
+        commentRepository.deleteAll(comments);
+        
+        // 좋아요 삭제
+        postLikeRepository.deleteAll(postLikeRepository.findByPost_PostId(postId));
+        
+        // 게시물 삭제
         postRepository.delete(post);
     }
 
