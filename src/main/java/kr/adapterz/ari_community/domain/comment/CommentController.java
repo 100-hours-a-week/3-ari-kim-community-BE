@@ -12,7 +12,7 @@ import java.math.BigInteger;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("/api/posts/{postId}/comments")
 public class CommentController {
 
     private final CommentService commentService;
@@ -23,9 +23,10 @@ public class CommentController {
     */
     @GetMapping
     public ResponseEntity<ApiResponse<Slice<GetCommentsResponse>>> getComments(
+            @PathVariable BigInteger postId,
             @RequestParam(required = false) BigInteger cursorId,
             @RequestParam(defaultValue = "10") int size) {
-        Slice<GetCommentsResponse> comments = commentService.getComments(cursorId, size);
+        Slice<GetCommentsResponse> comments = commentService.getComments(postId, cursorId, size);
         return ResponseEntity.ok(ApiResponse.success(comments));
     }
 
@@ -34,7 +35,7 @@ public class CommentController {
     Request DTO 요소: userId, 내용
     */
     @PostMapping
-    public ResponseEntity<ApiResponse<GetCommentsResponse>> createPost(@RequestParam BigInteger postId, @RequestBody CreateOrUpdateCommentRequest request) {
+    public ResponseEntity<ApiResponse<GetCommentsResponse>> createPost(@PathVariable BigInteger postId, @RequestBody CreateOrUpdateCommentRequest request) {
         GetCommentsResponse createdComment = commentService.createComment(postId, request);
         return ResponseEntity.ok(ApiResponse.success(createdComment));
     }
@@ -45,7 +46,7 @@ public class CommentController {
     */
     @PatchMapping("/{commentId}")
     public ResponseEntity<ApiResponse<GetCommentsResponse>> UpdateComment(
-            @RequestParam Integer commentId,
+            @PathVariable Integer commentId,
             @RequestBody CreateOrUpdateCommentRequest request) {
         GetCommentsResponse updatedComment = commentService.updateComment(commentId, request);
         return ResponseEntity.ok(ApiResponse.success(updatedComment));

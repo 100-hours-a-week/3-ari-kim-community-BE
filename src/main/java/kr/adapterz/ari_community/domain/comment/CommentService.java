@@ -27,17 +27,18 @@ public class CommentService {
     private final PostRepository postRepository;
 
     /* 댓글 조회
-    최초 조회시 comment_id 오름차순에서 1-10번째 게시물을 가져옴
-    다음 페이지 조회시 comment_id 오름차순에서 cursorId(마지막으로 조회한 게시물) 이후 1-10번째 게시물을 가져옴
-    가져온 게시물들을 DTO로 변환하여 반환
+    특정 게시물의 댓글을 조회
+    최초 조회시 comment_id 내림차순에서 1-10번째 댓글을 가져옴
+    다음 페이지 조회시 comment_id 내림차순에서 cursorId(마지막으로 조회한 댓글) 이후 1-10번째 댓글을 가져옴
+    가져온 댓글들을 DTO로 변환하여 반환
      */
-    public Slice<GetCommentsResponse> getComments(BigInteger cursorId, Integer size) {
+    public Slice<GetCommentsResponse> getComments(BigInteger postId, BigInteger cursorId, Integer size) {
         Slice<Comment> commentSlice;
         Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "commentId"));
         if (cursorId == null) {
-            commentSlice = commentRepository.findAllByOrderByCommentIdDesc(pageable);
+            commentSlice = commentRepository.findByPost_PostIdOrderByCommentIdDesc(postId, pageable);
         } else {
-            commentSlice = commentRepository.findByCommentIdLessThanOrderByCommentIdDesc(cursorId, pageable);
+            commentSlice = commentRepository.findByPost_PostIdAndCommentIdLessThanOrderByCommentIdDesc(postId, cursorId, pageable);
         }
         return commentSlice.map(comment -> new GetCommentsResponse(comment));
     }
@@ -54,6 +55,8 @@ public class CommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Comment comment = request.toEntity(post, user);
         Comment savedComment = commentRepository.save(comment);
+        // 게시물의 댓글 수 증가
+        post.increaseCommentCount();
         return new GetCommentsResponse(savedComment);
     }
 
@@ -74,7 +77,12 @@ public class CommentService {
     public void deleteComment(Integer commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        Post post = comment.getPost();
         commentRepository.delete(comment);
+        // 게시물의 댓글 수 감소
+        if (post != null) {
+            post.decreaseCommentCount();
+        }
     }
 
 }
