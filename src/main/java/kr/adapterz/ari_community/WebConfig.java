@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtAuthorizationInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/**", "/posts", "/users/signup");
+                .excludePathPatterns("/api/auth/**", "/api/posts", "/api/users/signup");
     }
 
     @Override
@@ -33,9 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // http://localhost:3000 의 요청을 허용                                                                
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS") //  허용할 HTTP 메소드                                                      
-                .allowedHeaders("*")    // 모든 헤더 허용
+                .allowedOrigins("http://localhost:3000") // http://localhost:3000 의 요청을 허용
                 .allowCredentials(true); // (선택) 쿠키/인증 헤더 사용 시       
     }
 
@@ -49,7 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/users/**")
                 .addResourceLocations("file:/Documents/images/users/");
 
-        // FE 프로젝트의 레이아웃 CSS 파일 참조
+        // FE 프로젝트의 레이아웃 파일 참조 (HTML, CSS 등)
         registry.addResourceHandler("/layout/**")
                 .addResourceLocations("file:/Users/dvin/Documents/GitHub/3-ari-kim-community-FE/public/layout/");                                               
 
