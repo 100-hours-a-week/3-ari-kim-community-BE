@@ -104,6 +104,6 @@ jobs:
             docker image prune -f
           
             # 새 이미지 받아서 실행
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ari-community-be:latest
-            docker run -d -p 8080:8080 --name community-server ${{ secrets.DOCKER_USERNAME }}/ari-community-be:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/rarely-be:latest
+            docker run -d -p 8080:8080 --name community-server ${{ secrets.DOCKER_USERNAME }}/rarely-be:latest
           EOF
