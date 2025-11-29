@@ -1,4 +1,4 @@
-name: Spring Boot CI/CD
+name: BE Spring Boot CI/CD
 
 on:
   push:
@@ -98,12 +98,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-            # 기존 컨테이너 정리
-            docker stop community-server || true
-            docker rm community-server || true
-            docker image prune -f
-          
-            # 새 이미지 받아서 실행
-            docker pull ${{ secrets.DOCKER_USERNAME }}/rarely-be:latest
-            docker run -d -p 8080:8080 --name community-server ${{ secrets.DOCKER_USERNAME }}/rarely-be:latest
+            cd /home/${{ secrets.SERVER_USER }}/backend
+            docker compose pull
+            docker compose up -d
           EOF
