@@ -70,8 +70,8 @@ public class PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = request.toEntity(user);
-        Post savedPost = postRepository.save(post);
-        return new GetPostDetailResponse(savedPost);
+        postRepository.save(post);
+        return new GetPostDetailResponse(post);
     }
 
     /* 게시물 수정
@@ -87,6 +87,7 @@ public class PostService {
         String imageUrl = request.imageUrl() != null ? request.imageUrl() : post.getImageUrl();
         
         post.updatePost(request.title(), request.content(), imageUrl);
+        postRepository.save(post);
         return new GetPostDetailResponse(post);
     }
 
