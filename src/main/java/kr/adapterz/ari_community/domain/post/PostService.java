@@ -69,7 +69,7 @@ public class PostService {
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        Post post = request.toEntity(user, request.imageUrl());
+        Post post = request.toEntity(user);
         Post savedPost = postRepository.save(post);
         return new GetPostDetailResponse(savedPost);
     }
