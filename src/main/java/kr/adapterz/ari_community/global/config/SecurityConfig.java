@@ -1,4 +1,4 @@
-package kr.adapterz.ari_community.global;
+package kr.adapterz.ari_community.global.config;
 
 import kr.adapterz.ari_community.global.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +53,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("https://rarelypet.store");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");

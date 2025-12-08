@@ -59,7 +59,6 @@ public class PostService {
         return new GetPostDetailResponse(post);
     }
 
-
     /* 게시물 등록
     RequestDTO로 user_id, 제목, 내용을 가져오고, imageFile을 받음
     user_id로 해당 User를 가져오고, imageFile을 서버에 저장하고 URL을 받아 DB에 저장함
