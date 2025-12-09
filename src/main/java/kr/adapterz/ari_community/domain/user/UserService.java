@@ -104,7 +104,7 @@ public class UserService {
             BigInteger postId = post.getPostId();
             // 게시물의 댓글 삭제
             List<kr.adapterz.ari_community.domain.comment.Comment> comments = 
-                commentRepository.findByPost_PostIdOrderByCommentIdDesc(postId, Pageable.unpaged()).getContent();
+                commentRepository.findByPost_PostIdOrderByCommentIdAsc(postId, Pageable.unpaged()).getContent();
             commentRepository.deleteAll(comments);
             
             // 게시물의 좋아요 삭제

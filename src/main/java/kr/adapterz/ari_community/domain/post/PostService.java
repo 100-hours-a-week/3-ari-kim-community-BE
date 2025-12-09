@@ -99,7 +99,7 @@ public class PostService {
         // 게시물 삭제 전에 관련된 댓글과 좋아요 먼저 삭제
         // 댓글 삭제 (Pageable 없이 모든 댓글 조회)
         List<kr.adapterz.ari_community.domain.comment.Comment> comments = 
-            commentRepository.findByPost_PostIdOrderByCommentIdDesc(postId, Pageable.unpaged()).getContent();
+            commentRepository.findByPost_PostIdOrderByCommentIdAsc(postId, Pageable.unpaged()).getContent();
         commentRepository.deleteAll(comments);
         
         // 좋아요 삭제

@@ -34,11 +34,11 @@ public class CommentService {
      */
     public Slice<GetCommentsResponse> getComments(BigInteger postId, BigInteger cursorId, Integer size) {
         Slice<Comment> commentSlice;
-        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "commentId"));
+        Pageable pageable = PageRequest.of(0, size, Sort.by(Sort.Direction.ASC, "commentId"));
         if (cursorId == null) {
-            commentSlice = commentRepository.findByPost_PostIdOrderByCommentIdDesc(postId, pageable);
+            commentSlice = commentRepository.findByPost_PostIdOrderByCommentIdAsc(postId, pageable);
         } else {
-            commentSlice = commentRepository.findByPost_PostIdAndCommentIdLessThanOrderByCommentIdDesc(postId, cursorId, pageable);
+            commentSlice = commentRepository.findByPost_PostIdAndCommentIdGreaterThanOrderByCommentIdAsc(postId, cursorId, pageable);
         }
         return commentSlice.map(comment -> new GetCommentsResponse(comment));
     }
